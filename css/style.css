@@ -1,0 +1,248 @@
+.clear {
+  float: none!important;
+  clear: both!important;
+  display: table!important;
+  width: 0!important;
+  height: 0!important;
+  margin: 0!important;
+  padding: 0!important;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#bg-dark {
+  position: fixed;
+  top: -40%;
+  left: -40%;
+  right: -40%;
+  bottom: -40%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+}
+.flexParent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.flexChild {
+  flex-grow: 1;
+}
+[v-cloak] {
+  display: none;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  color: #555;
+  font-size: 10px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body {
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  background-color: #fff;
+  color: #555;
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  font-size: 12px;
+  background: linear-gradient(45deg, #EECFBA, #C5DDE8);
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  counter-reset: p_num 0;
+  background: #4a4a4a;
+  color: #bebebe;
+}
+img {
+  border: none;
+  display: inline-block;
+}
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 10.5px;
+}
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
+br {
+  clear: both;
+}
+p {
+  margin: 0 0 10.5px;
+}
+\ #dbg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  z-index: 88;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  cursor: pointer;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+@media screen and (min-width: 65em) {
+  #app {
+    flex-direction: row;
+  }
+}
+#menu {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+#menu ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  flex-basis: 100%;
+}
+#menu li {
+  display: block;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background .3s;
+}
+#menu li:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+#menu .selected {
+  background: rgba(255, 255, 255, 0.1);
+}
+#data_list {
+  background: #333;
+}
+#section_list {
+  background: #3b3b3b;
+}
+#subsection_list {
+  background: #424242;
+}
+@media screen and (min-width: 65em) {
+  #menu {
+    flex-wrap: nowrap;
+  }
+  #menu ul {
+    flex-direction: column;
+    max-width: 20rem;
+    flex-grow: 0;
+    flex-basis: 0;
+  }
+  #menu li {
+    width: 17rem;
+  }
+}
+#result {
+  background: #4a4a4a;
+  padding: 1rem;
+}
+#result .padding {
+  padding: 1rem 2rem;
+}
+#result .item {
+  margin: 1rem 0;
+}
+#result h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+#result .highlight {
+  border-radius: 3px;
+  background: #333;
+  padding: 1rem;
+}
+.loader {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  background: #fff;
+  margin: 5px;
+  position: relative;
+  top: 16px;
+  -webkit-border-radius: 20px 20px 20px 20px;
+  -moz-border-radius: 20px 20px 20px 20px;
+  border-radius: 20px 20px 20px 20px;
+  -webkit-box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
+  -khtml-box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
+  /*/
+    @w2: @w/2;
+    @b: 4px;
+    /**/
+  /**/
+  /**/
+  /**/
+}
+.loader:after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 0px;
+  height: 0px;
+  border: 10px solid #8DB6F3;
+  border-left-color: rgba(255, 255, 255, 0);
+  border-right-color: rgba(255, 255, 255, 0);
+  -webkit-border-radius: 40px 40px 40px 40px;
+  -moz-border-radius: 40px 40px 40px 40px;
+  border-radius: 40px 40px 40px 40px;
+  animation-name: spin;
+  animation-duration: 1200ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

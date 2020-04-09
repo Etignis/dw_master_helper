@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+  <title>Dungeon World - помощник ведущего</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/style.css?v=0.6">
+  <meta name="description" content="Списки ходов и исходов">
+  <link href="../_fonts/FortAwesome/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="canonical" href="https://tentaculus.ru/dw_master_helper" />
+	
+  <meta property="og:image" content="img/bg2.jpg" />
+  <meta property="og:image" content="img/og.jpg" />
+  <meta property="og:title" content="Dungeon World - помощник ведущего" />
+  <meta property="og:description" content="Списки ходов и исходов" />
+    <!-- IE must understand HTML5: -->
+  <!--[if IE]>
+   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <!--[if lt IE 9]>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+  <![endif]-->
+  <style>
+   article, aside, details, figcaption, figure, footer,header,
+   hgroup, menu, nav, section, div { display: block; }
+  </style>
+</head>
+<body>
+
+	<div class='wrap'  id='app' >
+		<menu id='menu'>
+			<ul id="data_list">
+				<item v-for="item in data"
+					:key="item.key"
+					:name="item.key"
+					src='data'
+					:title="item.title"
+					:ico="item.ico"
+					:color="item.color"
+					:checked="checked.main"
+					
+					@lclick="dataClick($event)"
+				>
+				</item>
+			</ul>
+			<ul id="section_list">
+				<item v-for="item in section"
+					:key="item.key"
+					:name="item.key"
+					src='section'
+					:title="item.title"
+					:ico="item.ico"
+					:color="item.color"
+					:checked="checked.section"
+					
+					@lclick="sectionClick($event)"
+				>
+				</item>	
+			</ul>
+			<ul id="subsection_list">	
+				<item v-for="item in subsection"
+					:key="item.key"
+					:name="item.key"
+					src='subsection'
+					:title="item.title"
+					:checked="checked.subsection"
+					:ico="item.ico"
+					:color="item.color"
+					
+					@lclick="subsectionClick($event)"
+				>
+				</item>
+			</ul>
+		</menu>
+		<div id='result'  v-show="showReult" >
+			<section class='padding'>
+				<h1>Случайный результат:</h1>
+				<div class='highlight' v-html="random_result">
+				</div>
+			</section>
+			<section class='padding'>
+				<h1>Другие варианты:</h1>
+				<ul>
+					<li v-for="item in displayData"
+							:key="item.i"
+							v-html="item.title"
+							class='item'
+					>
+
+					</li>
+				</ul>
+			</section>
+		</div>
+	</div>
+
+	<script type='text/javascript' src="js/vue.js" defer></script>
+  <script type='text/javascript' src='js/data.js' defer></script>
+  <script type='text/javascript' src='js/controller.js' defer></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter42911239 = new Ya.Metrika({
+                    id:42911239,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    trackHash:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/42911239" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>
