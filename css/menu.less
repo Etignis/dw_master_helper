@@ -10,6 +10,8 @@
 		flex-wrap: wrap;
     flex-grow: 1;
     flex-basis: 100%;
+		
+		
 	}
 	li{
 		display: block;
@@ -46,7 +48,14 @@
 			flex-direction: column;
 			max-width: 20rem;
       flex-grow: 0;
-			flex-basis: 0;
+			flex-wrap: nowrap;
+			// flex-basis: 0;
+			
+			flex-basis: auto;
+			
+			
+			overflow-y: auto;
+			.scrollbars(1rem/2, fade(black, 20%), transparent);
 		}
 		li{
 			width: 17rem;

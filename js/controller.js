@@ -64,6 +64,87 @@ Vue.component('item', {
 </li>`
 });
 
+
+Vue.component('move', {
+	props: {		
+		title: {
+			type: String,
+			default: ""
+		},	
+		src: {
+			type: String,
+			default: ""
+		},	
+		name: {
+			type: String,
+			default: ""
+		},
+		condition: {
+			type: String,
+			default: ""
+		},
+		results: {
+			type: Array,
+			default: function(){return []}
+		},
+		variants: {
+			type: Object,
+			default: function(){return {}}
+		},
+		
+	},
+	data: function(){
+		return {};
+	},
+	methods: {
+				
+	},
+	computed: {
+		isVariants: function(){
+			return this.variants && this.variants.list
+		},
+
+		_results: function(){
+			if(this.results && this.results.length>0) {
+				return this.results.map(el=>{
+					let sLinks = el.links?el.links.join(" "):"";
+					return `${el.title} ${sLinks}`
+				})
+			}
+			return [];
+		},
+		_condition: function(){
+			if(this.condition.includes("●")) {
+				let aLines = this.condition.split(/●/);
+				let sStart = aLines.shift();
+				let aList = aLines.map(el=>`<li>${el.trim()}</li>`);
+				return `${sStart} <ul>${aList.join("")}</ul>`;
+			}
+			return this.condition;
+		}
+	},
+	created: function(){
+		
+	},
+	template: `<div class='move'>
+		<div class='title'>{{title}}</div>
+		<div class='condition' v-html="_condition"></div>
+		<ul>
+			<li v-for="item in _results" v-html="item">
+			</li>
+		</ul>
+		<div v-if="isVariants">
+			<div>{{variants.title}}</div>
+			<ul>
+				<li v-for="item in variants.list">
+				{{item.title}}
+				</li>
+			</ul>
+		</div>
+		
+</div>`
+});
+
 	
 var app = new Vue({
 	el: '#app',
@@ -90,7 +171,8 @@ var app = new Vue({
 			if(!sKey) {
 				return aList;
 			}
-			aList = this.data.find(el=>el.key==sKey).sub;
+			let aFiltered = this.data.find(el=>el.key==sKey);
+			aList = aFiltered.sub || aFiltered.data && aFiltered.data.moves || [];
 			return aList;
 		},
 		subsection: function() {
@@ -99,7 +181,9 @@ var app = new Vue({
 			if(!sKey || !this.section || !this.section.length) {
 				return aList;
 			}
-			aList = this.section.find(el=>el.key==sKey).sub || [];
+			let aFiltered = this.section.find(el=>el.key==sKey);
+			let bMove = !!aFiltered.condition;
+			aList = bMove? [] : aFiltered.sub;
 			return aList;
 		},
 		
@@ -154,6 +238,23 @@ var app = new Vue({
 				return "";
 			}
 			return this.displayData.pop().title;
+		},
+		
+		displayMove: function(){
+			sKey = this.checked.section;
+			if(sKey && this.section && this.section.length>0) {
+				aList = this.section.find(el=>el.key==sKey);
+				if(aList){
+					let bMove = !!aList.condition;
+					return bMove? aList : {};
+				}		
+			}
+			
+			return {};
+		},
+		showMove: function(){
+			let bMove = !!(this.displayMove && this.displayMove.condition);
+			return bMove;
 		}
 	},
 	mounted: function() {
@@ -172,12 +273,81 @@ var app = new Vue({
 		// this.$refs.SourceCombobox.toggle(null, this.bSourcesOpend);
 		
 		// this.updateHash();
+		this._setMoveLinks();
 		this.getHash();
 		
-		this.bAppIsReady = true;
+		this.bAppIsReady = true;		
+		
+		window.addEventListener('hashchange',()=>{this.getHash();})
 	},
 	methods: {
-		
+		_setMoveLinks: function(){
+			that = this;
+			this.data.forEach(function(oEl){
+				if(oEl.data && oEl.data.moves) {
+					oEl.data.moves.forEach(function(oMove){
+						that._translateMove(oMove)
+						// oMove.results.forEach(function(oResult){
+							// if(oResult.links && oResult.links.length>0) {
+								
+							// }
+						// })
+					})
+				}
+			});
+		},
+		_translateMove: function(oMove){
+			//let oLinkedMove = Object.assign(oMove);
+			oMove.results = oMove.results.map(res=>{
+				if(res.links && res.links.length>0) {
+					res.links = res.links.map(link=>{
+						let sLinktitle = this._getLinkTitle(link);
+						return `<a href="#${link}">${sLinktitle}</a>`
+					}) || [];
+				}
+				
+				return res;
+			})
+			return oMove;
+		},
+		_getLinkTitle: function(sPath){
+			let sRet = sPath;
+			let aPath = sPath.split("|");
+			let sTitle = "";
+			switch(aPath.length) {
+				case 3: 
+					let aSections = data.filter(el=>el.sub && el.sub.length>0);
+					for (let i=0; i<aSections.length; i++ && !sTitle) {
+						if(aSections[i].sub) {
+							let aSec = aSections[i].sub;
+							for(let j=0; j<aSec.length; j++) {
+								if(aSections[i].sub[j].sub) {
+									let oSub = aSections[i].sub[j].sub.find(el=>el.key == aPath[2]);
+									if(oSub) {
+										sTitle = oSub.title;
+										break
+									}
+								}
+							}
+						}
+					}
+					break;
+				case 2: 
+					let aSections2 = data.filter(el=>el.sub && el.sub.length>0);
+					for (let i=0; i<aSections2.length; i++) {
+						if(aSections2[i].sub) {
+							let oSub2 = aSections2[i].sub.find(el=>el.key == aPath[2]);
+							if(oSub2) {
+								sTitle = oSub2.title;
+							}
+						}
+					}
+					break;;
+				case 1: break;
+			}
+			
+			return sTitle || sRet;
+		},
 		dataClick: function({src, name}){
 			this.checked.main = `${name}`;
 			this.checked.section = "";
