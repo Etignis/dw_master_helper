@@ -268,14 +268,15 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  flex-direction: column-reverce;
+  flex-direction: column-reverse;
+  align-items: center;
 }
 .creditials .source a img,
 .creditials .source a span {
   margin: 0.5rem;
 }
 .creditials .source img {
-  max-width: 100%;
+  max-width: 350px;
   max-height: 100px;
 }
 .loader {
