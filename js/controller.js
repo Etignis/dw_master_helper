@@ -126,8 +126,8 @@ Vue.component('move', {
 	created: function(){
 		
 	},
-	template: `<div class='move'>
-		<div class='title'>{{title}}</div>
+	template: `<article class='move'>
+		<h1 class='title'>{{title}}</h1>
 		<div class='condition' v-html="_condition"></div>
 		<ul>
 			<li v-for="item in _results" v-html="item">
@@ -142,7 +142,7 @@ Vue.component('move', {
 			</ul>
 		</div>
 		
-</div>`
+</article>`
 });
 
 	
@@ -255,6 +255,10 @@ var app = new Vue({
 		showMove: function(){
 			let bMove = !!(this.displayMove && this.displayMove.condition);
 			return bMove;
+		},
+		
+		showInfo: function(){
+			return !this.showMove && !this.showReult;
 		}
 	},
 	mounted: function() {

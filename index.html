@@ -74,35 +74,64 @@
 			</ul>
 		</menu>
 		
-		<div id='move' v-show="showMove">
-			<move 
-				:name="displayMove.key"
-				:title="displayMove.title"
-				:condition="displayMove.condition"
-				:results="displayMove.results"
-				:variants="displayMove.variants"
-			>
-			</move>
-		</div>
+		<div id='contain' class='contain'>
 		
-		<div id='result'  v-show="showReult" >
-			<section class='padding'>
-				<h1>Случайный результат:</h1>
-				<div class='highlight' v-html="random_result">
-				</div>
-			</section>
-			<section class='padding'>
-				<h1>Другие варианты:</h1>
-				<ul>
-					<li v-for="item in displayData"
-							:key="item.i"
-							v-html="item.title"
-							class='item'
-					>
+			<div class='info'  v-show="showInfo">
+				<h1>
+					Помощник Ведущего Dungeon World
+				</h1>
+				
+				<p>
+					Здесь собраные некоторые ходы, исходы и идеи, которые могут пригодиться во время игры.
+				</p>
+			</div>
+		
+			<div id='move' v-show="showMove">
+				<move 
+					:name="displayMove.key"
+					:title="displayMove.title"
+					:condition="displayMove.condition"
+					:results="displayMove.results"
+					:variants="displayMove.variants"
+				>
+				</move>
+			</div>
+			
+			<div id='result'  v-show="showReult" >
+				<section class='padding'>
+					<h1>Случайный результат:</h1>
+					<div class='highlight' v-html="random_result">
+					</div>
+				</section>
+				<section class='padding'>
+					<h1>Другие варианты:</h1>
+					<ul>
+						<li v-for="item in displayData"
+								:key="item.i"
+								v-html="item.title"
+								class='item'
+						>
 
-					</li>
-				</ul>
-			</section>
+						</li>
+					</ul>
+				</section>
+			</div>
+			
+			<div class='creditials'>
+				<div class='source'>
+					<a href="https://irontales.ru/" class='outer_logo'>
+						<img src='https://irontales.ru/img/logo.png'>
+						<span>Источник большинства ходов и исходов</span>
+					</a>
+				</div>
+				<div class='source'>
+					<a href="http://indigogames.ru/" class='outer_logo'>
+						<img src='http://indigogames.ru/wp-content/uploads/2019/08/cropped-indigo_logo_big_new.png'>
+						<span>Магазин, где можно приобрести Dungeon World и много чего другого</span>
+					</a>
+				</div>
+			</div>
+		
 		</div>
 		
 	</div>

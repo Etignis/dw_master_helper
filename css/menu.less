@@ -15,19 +15,25 @@
 	}
 	li{
 		display: block;
-		padding: @padding;
-		cursor: pointer;
+		//padding: @padding;
+		border: 13px solid transparent;
+		cursor: pointer;;
+    font-weight: bold;
+    color: #ddd;
 		
-		transition: background .3s;
+		transition: color .3s;
 		
 		&:hover{
-			background: fade(white, 15);
+			color: #fff;
+			//background: fade(white, 15);
 			//background: linear-gradient(to right, fade(white, 25),  fade(white, 16));
 		}
 	}
 	.selected{
-		background: fade(white, 10);
-		//background: linear-gradient(to right, fade(white, 15),  fade(white, 0));
+		background: @color;
+    border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding;
 	}
 	
 }

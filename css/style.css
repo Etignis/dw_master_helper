@@ -97,11 +97,11 @@ p {
   margin: 0 0 10.5px;
 }
 a {
-  color: #03a9f4;
+  color: #3fa875;
   transition: color .3s;
 }
 a:hover {
-  color: #29b6f6;
+  color: #59c18e;
 }
 \ #dbg {
   position: fixed;
@@ -152,15 +152,20 @@ a:hover {
 }
 #menu li {
   display: block;
-  padding: 1rem;
+  border: 13px solid transparent;
   cursor: pointer;
-  transition: background .3s;
+  font-weight: bold;
+  color: #ddd;
+  transition: color .3s;
 }
 #menu li:hover {
-  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
 }
 #menu .selected {
-  background: rgba(255, 255, 255, 0.1);
+  background: #31835b;
+  border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
 }
 #data_list {
   background: #333;
@@ -201,40 +206,77 @@ a:hover {
     width: 17rem;
   }
 }
-#result {
+.contain {
   background: #4a4a4a;
   padding: 1rem;
   overflow-x: hidden;
   overflow-y: auto;
 }
-#result::-webkit-scrollbar {
+.contain::-webkit-scrollbar {
   width: 1rem;
   height: 1rem;
 }
-#result::-webkit-scrollbar-thumb {
+.contain::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
 }
-#result::-webkit-scrollbar-track {
+.contain::-webkit-scrollbar-track {
   background: transparent;
 }
-#result body {
+.contain body {
   scrollbar-face-color: rgba(0, 0, 0, 0.2);
   scrollbar-track-color: transparent;
 }
-#result .padding {
+.contain .padding {
   padding: 1rem 2rem;
 }
-#result .item {
+.contain .item {
   margin: 1rem 0;
 }
-#result h1 {
+.contain h1 {
   font-size: 24px;
   font-weight: bold;
 }
-#result .highlight {
+.contain .highlight {
   border-radius: 3px;
   background: #333;
   padding: 1rem;
+}
+#contain {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+.creditials {
+  display: flex;
+  flex-wrap: wrap;
+}
+.creditials .source {
+  border: 0.5rem solid #4a4a4a;
+  padding: 0.5rem;
+  background: white;
+  flex-grow: 1;
+  flex-basis: 150px;
+  opacity: .5;
+  transition: opacity .3s;
+}
+.creditials .source:hover {
+  opacity: 1;
+}
+.creditials .source a {
+  text-decoration: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column-reverce;
+}
+.creditials .source a img,
+.creditials .source a span {
+  margin: 0.5rem;
+}
+.creditials .source img {
+  max-width: 100%;
+  max-height: 100px;
 }
 .loader {
   width: 40px;
