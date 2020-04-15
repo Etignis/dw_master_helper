@@ -114,6 +114,10 @@ a:hover {
   align-items: center;
   justify-content: center;
   z-index: 999999;
+  transition: opacity .3s;
+}
+#loader_overflow.hidden {
+  opacity: 0;
 }
 .loader {
   width: 80px;

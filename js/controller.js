@@ -285,7 +285,8 @@ var app = new Vue({
 		
 		let oLoader = document.querySelector("#loader_overflow");
 		if(oLoader) {
-			oLoader.style.opacity = 0;
+			oLoader.classList.add("hidden");
+			//oLoader.style.opacity = 0;
 			setTimeout(function(){oLoader.remove()}, 600);
 		}
 		this.bAppIsReady = true;		
