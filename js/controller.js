@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', function(){
+
 function randd(min, max) {
   return Math.floor(arguments.length > 1 ? (max - min + 1) * Math.random() + min : (min + 1) * Math.random());
 };
@@ -281,6 +283,11 @@ var app = new Vue({
 		this._setMoveLinks();
 		this.getHash();
 		
+		let oLoader = document.querySelector("#loader_overflow");
+		if(oLoader) {
+			oLoader.style.opacity = 0;
+			setTimeout(function(){oLoader.remove()}, 600);
+		}
 		this.bAppIsReady = true;		
 		
 		window.addEventListener('hashchange',()=>{this.getHash();})
@@ -412,4 +419,6 @@ var app = new Vue({
 			
 		}
 	}
+});
+
 });

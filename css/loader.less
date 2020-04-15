@@ -1,23 +1,67 @@
+#loader_overflow{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	
+	background: @gray3;
+	
+	display: flex;
+	align-items: center;
+  justify-content: center;
+	
+	z-index: 999999;
+	
+	transition: opacity .3s;
+}
 .loader{
-    @w: 40px;
+    @w: 80px;
     width: @w;
     height: @w;
-    display: inline-block;
-    background: #fff;
-    margin: 5px;
+   
     position: relative;
-    top: 16px;
-    .border-rad(@w/2);
-    .box-shadow(0, 2px, 2px, 2px, rgba(0,0,0,.1));
+    // .border-rad(@w/2);
+    // .box-shadow(0, 2px, 2px, 2px, rgba(0,0,0,.1));
     
+		&:before,
+		&:after{
+			color: @color;
+			font-size: 200%;
+			content: "🎲";
+			position: absolute;
+			
+			animation-name: spin;
+			animation-duration: 1200ms;
+			animation-iteration-count: infinite;
+			animation-timing-function: ease-in-out;
+			animation-direction: alternate-reverse;
+		}
+		
+		&:after{
+			top: 0;
+			left: 0;
+		}
+		&:before{
+			bottom: 0;
+			right: 0;
+		}
+		
+		
+			
+			animation-name: spin;
+			animation-duration: 1700ms;
+			animation-iteration-count: infinite;
+			animation-timing-function: ease-in-out;
+			animation-direction: alternate;
+		
     /*/
     @w2: @w/2;
     @b: 4px;
-    /**/
-    /**/
+
     @w2: 0px;
     @b: @w/4;
-    /**/
+
     &:after{
         content: "";
         position: absolute;

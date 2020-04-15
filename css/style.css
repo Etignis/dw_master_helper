@@ -103,6 +103,80 @@ a {
 a:hover {
   color: #59c18e;
 }
+#loader_overflow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #4a4a4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+}
+.loader {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  animation-name: spin;
+  animation-duration: 1700ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  /*/
+    @w2: @w/2;
+    @b: 4px;
+
+    @w2: 0px;
+    @b: @w/4;
+
+    &:after{
+        content: "";
+        position: absolute;
+        left: @w/2 - @w2/2 - @b;
+        top:  @w/2 - @w2/2 - @b;
+        width: @w2;
+        height: @w2;
+        border: @b solid #8DB6F3;
+        border-left-color: rgba(255,255,255,0);
+        border-right-color: rgba(255,255,255,0);
+        .border-rad(@w);
+        animation-name: spin;
+        animation-duration: 1200ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+    /**/
+}
+.loader:before,
+.loader:after {
+  color: #31835b;
+  font-size: 200%;
+  content: "🎲";
+  position: absolute;
+  animation-name: spin;
+  animation-duration: 1200ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate-reverse;
+}
+.loader:after {
+  top: 0;
+  left: 0;
+}
+.loader:before {
+  bottom: 0;
+  right: 0;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 \ #dbg {
   position: fixed;
   top: 0;
@@ -371,53 +445,4 @@ a:hover {
 .creditials .source img {
   max-width: 350px;
   max-height: 100px;
-}
-.loader {
-  width: 40px;
-  height: 40px;
-  display: inline-block;
-  background: #fff;
-  margin: 5px;
-  position: relative;
-  top: 16px;
-  -webkit-border-radius: 20px 20px 20px 20px;
-  -moz-border-radius: 20px 20px 20px 20px;
-  border-radius: 20px 20px 20px 20px;
-  -webkit-box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
-  -khtml-box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
-  /*/
-    @w2: @w/2;
-    @b: 4px;
-    /**/
-  /**/
-  /**/
-  /**/
-}
-.loader:after {
-  content: "";
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  width: 0px;
-  height: 0px;
-  border: 10px solid #8DB6F3;
-  border-left-color: rgba(255, 255, 255, 0);
-  border-right-color: rgba(255, 255, 255, 0);
-  -webkit-border-radius: 40px 40px 40px 40px;
-  -moz-border-radius: 40px 40px 40px 40px;
-  border-radius: 40px 40px 40px 40px;
-  animation-name: spin;
-  animation-duration: 1200ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
