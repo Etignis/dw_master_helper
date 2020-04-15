@@ -130,6 +130,8 @@ a:hover {
   flex-direction: column;
   height: 100vh;
   width: 100vw;
+  background: url('../img/bg2.jpg') no-repeat;
+  background-size: cover;
 }
 @media screen and (min-width: 65em) {
   #app {
@@ -145,6 +147,7 @@ a:hover {
   overflow-y: scroll;
   flex-grow: 3;
   flex-shrink: 0;
+  background: rgba(74, 74, 74, 0.9);
 }
 #menu::-webkit-scrollbar {
   width: 0.5rem;
@@ -266,10 +269,10 @@ a:hover {
 }
 .widther {
   max-width: 80rem;
+  margin: 0 auto;
 }
 .contain {
   background: #4a4a4a;
-  padding: 1rem;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -328,6 +331,8 @@ a:hover {
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+  padding: 1rem;
+  background: rgba(74, 74, 74, 0.9);
 }
 .info {
   border: 2px solid #31835b;
