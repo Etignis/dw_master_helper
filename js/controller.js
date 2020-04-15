@@ -52,14 +52,14 @@ Vue.component('item', {
 		id: function(){
 			return "ch_"+this.val;
 		},
-		sel: function(){
-			return this.checked == `${this.name}`;
+		selected: function(){
+			return this.checked == this.name? `selected_${randd(1,6)}`: "";
 		}
 	},
 	created: function(){
 		
 	},
-	template: `<li @click="labelClick" :class='{selected: sel}'>
+	template: `<li @click="labelClick" :class='[selected]'>
 	{{title}}
 </li>`
 });
@@ -156,6 +156,7 @@ var app = new Vue({
 			section: "",
 			subsection: ""
 		},
+		smth: 1,
 		
 		oConfig: {},
 		bAppIsReady: false,
@@ -197,7 +198,7 @@ var app = new Vue({
 				} else {
 					aList = [];
 				}
-				return shuffle(aList);
+				return shuffle(aList, this.smth);
 		
 			}
 			
@@ -210,7 +211,7 @@ var app = new Vue({
 				} else {
 					aList = [];
 				}
-				return shuffle(aList);
+				return shuffle(aList, this.smth);
 		
 			}
 			
@@ -226,7 +227,7 @@ var app = new Vue({
 				aList = [];
 			}
 			
-			return shuffle(aList);
+			return shuffle(aList, this.smth);
 		},
 		
 		showReult: function(){
@@ -285,6 +286,9 @@ var app = new Vue({
 		window.addEventListener('hashchange',()=>{this.getHash();})
 	},
 	methods: {
+		_random: function(){
+			this.smth = -this.smth;
+		},
 		_setMoveLinks: function(){
 			that = this;
 			this.data.forEach(function(oEl){
@@ -340,7 +344,7 @@ var app = new Vue({
 					let aSections2 = data.filter(el=>el.sub && el.sub.length>0);
 					for (let i=0; i<aSections2.length; i++) {
 						if(aSections2[i].sub) {
-							let oSub2 = aSections2[i].sub.find(el=>el.key == aPath[2]);
+							let oSub2 = aSections2[i].sub.find(el=>el.key == aPath[1]);
 							if(oSub2) {
 								sTitle = oSub2.title;
 							}

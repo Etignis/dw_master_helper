@@ -141,6 +141,24 @@ a:hover {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  max-height: 45vh;
+  overflow-y: scroll;
+  flex-grow: 3;
+  flex-shrink: 0;
+}
+#menu::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+#menu::-webkit-scrollbar-thumb {
+  background: #31835b;
+}
+#menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+#menu body {
+  scrollbar-face-color: #31835b;
+  scrollbar-track-color: transparent;
 }
 #menu ul {
   margin: 0;
@@ -152,20 +170,56 @@ a:hover {
 }
 #menu li {
   display: block;
+  padding: 0 0.5rem;
   border: 13px solid transparent;
   cursor: pointer;
   font-weight: bold;
-  color: #ddd;
+  color: #ccc;
   transition: color .3s;
 }
 #menu li:hover {
   color: #fff;
 }
-#menu .selected {
+#menu .selected_1 {
   background: #31835b;
   border-image: url(../img/brush3.png) 13 13 13 13 repeat;
   -moz-background-clip: padding;
   -webkit-background-clip: padding;
+  border-image: url(../img/brush1.png) 13 13 13 13 repeat;
+}
+#menu .selected_2 {
+  background: #31835b;
+  border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  border-image: url(../img/brush2.png) 13 13 13 13 repeat;
+}
+#menu .selected_3 {
+  background: #31835b;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+}
+#menu .selected_4 {
+  background: #31835b;
+  border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  border-image: url(../img/brush4.png) 13 13 13 13 repeat;
+}
+#menu .selected_5 {
+  background: #31835b;
+  border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  border-image: url(../img/brush5.png) 13 13 13 13 repeat;
+}
+#menu .selected_6 {
+  background: #31835b;
+  border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  border-image: url(../img/brush6.png) 13 13 13 13 repeat;
 }
 #data_list {
   background: #333;
@@ -179,6 +233,10 @@ a:hover {
 @media screen and (min-width: 65em) {
   #menu {
     flex-wrap: nowrap;
+    max-height: 100vh;
+    /*overflow-y: scroll;*/
+    flex-grow: 0;
+    flex-shrink: 0;
   }
   #menu ul {
     flex-direction: column;
@@ -193,18 +251,21 @@ a:hover {
     height: 0.5rem;
   }
   #menu ul::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
+    background: #31835b;
   }
   #menu ul::-webkit-scrollbar-track {
     background: transparent;
   }
   #menu ul body {
-    scrollbar-face-color: rgba(0, 0, 0, 0.2);
+    scrollbar-face-color: #31835b;
     scrollbar-track-color: transparent;
   }
   #menu li {
-    width: 17rem;
+    /*width: 17rem;*/
   }
+}
+.widther {
+  max-width: 80rem;
 }
 .contain {
   background: #4a4a4a;
@@ -213,17 +274,17 @@ a:hover {
   overflow-y: auto;
 }
 .contain::-webkit-scrollbar {
-  width: 1rem;
-  height: 1rem;
+  width: 0.5rem;
+  height: 0.5rem;
 }
 .contain::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: #31835b;
 }
 .contain::-webkit-scrollbar-track {
   background: transparent;
 }
 .contain body {
-  scrollbar-face-color: rgba(0, 0, 0, 0.2);
+  scrollbar-face-color: #31835b;
   scrollbar-track-color: transparent;
 }
 .contain .padding {
@@ -238,14 +299,41 @@ a:hover {
 }
 .contain .highlight {
   border-radius: 3px;
-  background: #333;
+  background: #31835b;
   padding: 1rem;
+  color: white;
+}
+.contain header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contain button {
+  cursor: pointer;
+  border-radius: 3px;
+  background: none;
+  border: none;
+  border: 2px solid transparent;
+  padding: 1rem;
+  margin: 0.5rem;
+  font-size: 120%;
+  transition: background .3s, border .3s;
+}
+.contain button:hover {
+  border: 2px solid #31835b;
+  background: #31835b;
 }
 #contain {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+}
+.info {
+  border: 2px solid #31835b;
+  padding: 1rem;
+  border-radius: 3px;
+  background: rgba(49, 131, 91, 0.4);
 }
 .creditials {
   display: flex;

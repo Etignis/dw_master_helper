@@ -76,7 +76,7 @@
 		
 		<div id='contain' class='contain'>
 		
-			<div class='info'  v-show="showInfo">
+			<div class='info widther'  v-show="showInfo">
 				<h1>
 					Помощник Ведущего Dungeon World
 				</h1>
@@ -86,7 +86,7 @@
 				</p>
 			</div>
 		
-			<div id='move' v-show="showMove">
+			<div id='move' class='widther' v-show="showMove">
 				<move 
 					:name="displayMove.key"
 					:title="displayMove.title"
@@ -97,9 +97,12 @@
 				</move>
 			</div>
 			
-			<div id='result'  v-show="showReult" >
+			<div id='result' class='widther'  v-show="showReult" >
 				<section class='padding'>
-					<h1>Случайный результат:</h1>
+					<header>
+						<h1>Случайный результат:</h1>
+						<button @click="_random" title='Получить случайный результат'>🎲</button>
+					</header>
 					<div class='highlight' v-html="random_result">
 					</div>
 				</section>
@@ -117,23 +120,37 @@
 				</section>
 			</div>
 			
-			<div class='creditials'>
-				<div class='source'>
-					<a href="https://irontales.ru/" class='outer_logo'>
-						<img src='https://irontales.ru/img/logo.png'>
-						<!-- <span>Источник большинства ходов и исходов</span> -->
-					</a>
+			<footer>
+				<h1>
+					Источникик и полезности: 
+				</h1>
+				<div class='creditials'>
+					<div class='source'>
+						<a href="https://irontales.ru/" class='outer_logo'>
+							<img src='https://irontales.ru/img/logo.png'>
+							<!-- <span>Источник большинства ходов и исходов</span> -->
+						</a>
+					</div>
+					<div class='source'>
+						<a href="http://indigogames.ru/" class='outer_logo'>
+							<img src='http://indigogames.ru/wp-content/uploads/2019/08/cropped-indigo_logo_big_new.png'>
+							<!-- <span>Магазин, где можно приобрести Dungeon World и много чего другого</span> -->
+						</a>
+					</div>
 				</div>
-				<div class='source'>
-					<a href="http://indigogames.ru/" class='outer_logo'>
-						<img src='http://indigogames.ru/wp-content/uploads/2019/08/cropped-indigo_logo_big_new.png'>
-						<!-- <span>Магазин, где можно приобрести Dungeon World и много чего другого</span> -->
-					</a>
-				</div>
-			</div>
-		
+			</footer>
+			
 		</div>
 		
+	</div>
+	
+	<div id='preload' style="position: absolute; overflow :hidden; width: 0; height: 0">
+		<img src="img/brush1.png">
+		<img src="img/brush2.png">
+		<img src="img/brush3.png">
+		<img src="img/brush4.png">
+		<img src="img/brush5.png">
+		<img src="img/brush6.png">
 	</div>
 
 	<script type='text/javascript' src="js/vue.js" defer></script>

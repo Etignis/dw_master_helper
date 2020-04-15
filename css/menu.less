@@ -3,6 +3,12 @@
 	padding: 0;
 	display: flex;
 	flex-wrap: wrap;
+	max-height: 45vh;
+	overflow-y: scroll;
+	flex-grow: 3;
+	flex-shrink: 0;
+	.scrollbars(1rem/2, @color /*fade(black, 20%)*/, transparent);
+	
 	ul {
 		margin: 0;
 		padding: 0;
@@ -15,11 +21,11 @@
 	}
 	li{
 		display: block;
-		//padding: @padding;
+		padding: 0 @padding/2;
 		border: 13px solid transparent;
 		cursor: pointer;;
     font-weight: bold;
-    color: #ddd;
+    color: #ccc;
 		
 		transition: color .3s;
 		
@@ -30,10 +36,37 @@
 		}
 	}
 	.selected{
-		background: @color;
-    border-image: url(../img/brush3.png) 13 13 13 13 repeat;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding;
+		._sel(){
+			background: @color;
+			border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+			-moz-background-clip: padding;
+			-webkit-background-clip: padding;
+		}
+		
+		&_1{
+			._sel();
+			border-image: url(../img/brush1.png) 13 13 13 13 repeat;
+		}
+		&_2{
+			._sel();
+			border-image: url(../img/brush2.png) 13 13 13 13 repeat;
+		}
+		&_3{
+			._sel();
+			border-image: url(../img/brush3.png) 13 13 13 13 repeat;
+		}
+		&_4{
+			._sel();
+			border-image: url(../img/brush4.png) 13 13 13 13 repeat;
+		}
+		&_5{
+			._sel();
+			border-image: url(../img/brush5.png) 13 13 13 13 repeat;
+		}
+		&_6{
+			._sel();
+			border-image: url(../img/brush6.png) 13 13 13 13 repeat;
+		}
 	}
 	
 }
@@ -50,6 +83,11 @@
 @media screen and (min-width: @m_w_1) {
   #menu{ 
 		flex-wrap: nowrap;
+		max-height: 100vh;
+		/*overflow-y: scroll;*/
+		flex-grow: 0;
+		flex-shrink: 0;
+
 		ul{
 			flex-direction: column;
 			max-width: 20rem;
@@ -61,10 +99,10 @@
 			
 			
 			overflow-y: auto;
-			.scrollbars(1rem/2, fade(black, 20%), transparent);
+			.scrollbars(1rem/2, @color /*fade(black, 20%)*/, transparent);
 		}
 		li{
-			width: 17rem;
+			/*width: 17rem;*/
 		}
 	}
 }

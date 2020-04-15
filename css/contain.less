@@ -1,10 +1,15 @@
+.widther{
+	max-width: 80rem;
+	//margin: 0 auto;
+}
+
 .contain{
 	background: @gray3;
 	padding: @padding;
 	
 	overflow-x: hidden;
 	overflow-y: auto;
-	.scrollbars(1rem, fade(black, 20%), transparent);
+	.scrollbars(1rem/2, @color /*fade(black, 20%)*/, transparent);
 	
 	.padding{
 		padding: @padding 2*@padding;
@@ -20,8 +25,32 @@
 	
 	.highlight{
 		border-radius: @r-rad;
-		background: @gray;
+		background: @color;
 		padding: @padding;
+		color: white;
+	}
+	
+	header{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	button{
+		cursor: pointer;
+		border-radius: @r-rad;
+		background: none;
+		border: none;
+		border: 2px solid transparent;
+		padding: @padding;
+		margin: @padding/2;
+		font-size: 120%;
+		transition: background .3s, border .3s;
+		
+		&:hover{
+			border: 2px solid @color;
+			background: @color;
+		}
 	}
 }
 
@@ -34,6 +63,14 @@
 
 #result, #move{
 	
+}
+
+
+.info{
+	border: 2px solid @color;
+	padding: 1rem;
+	border-radius: @r-rad;
+	background: fade(@color, 40%);
 }
 
 .creditials{
