@@ -417,6 +417,7 @@ a:hover {
   padding: 1rem;
   border-radius: 3px;
   background: rgba(49, 131, 91, 0.4);
+  color: white;
 }
 .creditials {
   display: flex;
