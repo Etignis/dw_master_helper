@@ -3,12 +3,16 @@
 	padding: 0;
 	display: flex;
 	flex-wrap: wrap;
-	max-height: 45vh;
+	max-height: 25vh;
 	overflow-y: scroll;
 	flex-grow: 3;
 	flex-shrink: 0;
 	background: fade(@gray3, 90%);
 	.scrollbars(1rem/2, @color /*fade(black, 20%)*/, transparent);
+	
+	&.maximise{
+		max-height: 65vh;
+	}
 	
 	ul {
 		margin: 0;
@@ -88,6 +92,10 @@
 		/*overflow-y: scroll;*/
 		flex-grow: 0;
 		flex-shrink: 0;
+		
+		&.maximise{
+			max-height: 100vh;
+		}
 
 		ul{
 			flex-direction: column;

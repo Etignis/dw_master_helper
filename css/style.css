@@ -221,7 +221,7 @@ a:hover {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  max-height: 45vh;
+  max-height: 25vh;
   overflow-y: scroll;
   flex-grow: 3;
   flex-shrink: 0;
@@ -240,6 +240,9 @@ a:hover {
 #menu body {
   scrollbar-face-color: #31835b;
   scrollbar-track-color: transparent;
+}
+#menu.maximise {
+  max-height: 65vh;
 }
 #menu ul {
   margin: 0;
@@ -318,6 +321,9 @@ a:hover {
     /*overflow-y: scroll;*/
     flex-grow: 0;
     flex-shrink: 0;
+  }
+  #menu.maximise {
+    max-height: 100vh;
   }
   #menu ul {
     flex-direction: column;

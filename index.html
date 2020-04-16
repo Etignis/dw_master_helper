@@ -35,7 +35,7 @@
 	</div>
 	
 	<div class='wrap'  id='app' >
-		<menu id='menu'>
+		<menu id='menu' :class='{maximise: enlarge_menu}' @click="menu_priority(1)">
 			<ul id="data_list">
 				<item v-for="item in data"
 					:key="item.key"
@@ -80,7 +80,7 @@
 			</ul>
 		</menu>
 		
-		<div id='contain' class='contain'>
+		<div id='contain' class='contain'  @click="menu_priority(0)">
 		
 			<div class='info widther'  v-show="showInfo">
 				<h1>

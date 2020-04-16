@@ -158,6 +158,7 @@ var app = new Vue({
 			section: "",
 			subsection: ""
 		},
+		enlarge_menu: false,
 		smth: 1,
 		
 		oConfig: {},
@@ -363,6 +364,9 @@ var app = new Vue({
 			}
 			
 			return sTitle || sRet;
+		},
+		menu_priority: function(bMax){
+			this.enlarge_menu = !!bMax;
 		},
 		dataClick: function({src, name}){
 			this.checked.main = `${name}`;
