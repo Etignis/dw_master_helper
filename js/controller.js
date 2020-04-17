@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', function(){
 function randd(min, max) {
   return Math.floor(arguments.length > 1 ? (max - min + 1) * Math.random() + min : (min + 1) * Math.random());
 };
-function shuffle(o){
+function shuffle(o, bRand){
+	if(bRand){
     for(var j, x, k = o.length; k; j = Math.floor(Math.random() * k), x = o[--k], o[k] = o[j], o[j] = x);
-    return o;
+	}
+  return o;
 };
 
 	////////////////////
@@ -196,12 +198,14 @@ var app = new Vue({
 			let sKey = this.checked.subsection;
 			if(sKey && this.subsection && this.subsection.length>0) {
 				aList = this.subsection.find(el=>el.key==sKey);
-				if(aList.data && aList.data.list){
-					aList = aList.data.list.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
+				let bRand = true;
+				if(aList && aList.data && aList.data.list && aList.data.list.data){
+					bRand = aList.data.list.bShuffle!==false;
+					aList = aList.data.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
 				} else {
 					aList = [];
 				}
-				return shuffle(aList, this.smth);
+				return shuffle(aList, bRand, this.smth);
 		
 			}
 			
@@ -209,28 +213,29 @@ var app = new Vue({
 			sKey = this.checked.section;
 			if(sKey && this.section && this.section.length>0) {
 				aList = this.section.find(el=>el.key==sKey);
-				if(aList.data && aList.data.list){
-					aList = aList.data.list.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
+				let bRand = true;
+				if(aList && aList.data && aList.data.list && aList.data.list.data){
+					bRand = aList.data.list.bShuffle!==false;
+					aList = aList.data.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
 				} else {
 					aList = [];
 				}
-				return shuffle(aList, this.smth);
+				return shuffle(aList, bRand, this.smth);
 		
 			}
 			
 			//////////////
 			sKey = this.checked.main;
-			if(!sKey) {
-				return aList;
-			}
 			aList = this.data.find(el=>el.key==sKey);
-			if(aList.data && aList.data.list){
-				aList = aList.data.list.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
+			let bRand = true;
+			if(aList && aList.data && aList.data.list && aList.data.list.data){
+				bRand = aList.data.list.bShuffle!==false;
+				aList = aList.data.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
 			} else {
 				aList = [];
 			}
 			
-			return shuffle(aList, this.smth);
+			return shuffle(aList, bRand, this.smth);
 		},
 		
 		showReult: function(){
@@ -241,7 +246,8 @@ var app = new Vue({
 			if(!this.displayData.length) {
 				return "";
 			}
-			return this.displayData.pop().title;
+			let nRand = randd(0, this.displayData.length-1);
+			return this.displayData[nRand].title;
 		},
 		
 		displayMove: function(){
