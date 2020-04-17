@@ -112,7 +112,8 @@ Vue.component('move', {
 			if(this.results && this.results.length>0) {
 				return this.results.map(el=>{
 					let sLinks = el.links?el.links.join(" "):"";
-					return `${el.title} ${sLinks}`
+					let oInnerList = el.list? el.list.data.map(el=>el.title) : [];
+					return {text: `${el.title} ${sLinks}`, list: oInnerList}//`${el.title} ${sLinks}`
 				})
 			}
 			return [];
@@ -134,7 +135,12 @@ Vue.component('move', {
 		<h1 class='title'>{{title}}</h1>
 		<div class='condition' v-html="_condition"></div>
 		<ul>
-			<li v-for="item in _results" v-html="item">
+			<li v-for="item in _results">
+				<span v-html="item.text"></span>
+				<ul>
+					<li v-for="el in item.list" v-html="el">
+					</li>
+				</ul>
 			</li>
 		</ul>
 		<div v-if="isVariants">
@@ -194,60 +200,47 @@ var app = new Vue({
 		},
 		
 		displayData: function(){
+			let oContent = {};
+			let sPre = "";
 			let aList = [];
+			let o = {list: [], pre: ""};
+			
 			let sKey = this.checked.subsection;
 			if(sKey && this.subsection && this.subsection.length>0) {
-				aList = this.subsection.find(el=>el.key==sKey);
-				let bRand = true;
-				if(aList && aList.data && aList.data.list && aList.data.list.data){
-					bRand = aList.data.list.bShuffle!==false;
-					aList = aList.data.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
-				} else {
-					aList = [];
-				}
-				return shuffle(aList, bRand, this.smth);
-		
-			}
-			
-			//////////////
-			sKey = this.checked.section;
-			if(sKey && this.section && this.section.length>0) {
-				aList = this.section.find(el=>el.key==sKey);
-				let bRand = true;
-				if(aList && aList.data && aList.data.list && aList.data.list.data){
-					bRand = aList.data.list.bShuffle!==false;
-					aList = aList.data.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
-				} else {
-					aList = [];
-				}
-				return shuffle(aList, bRand, this.smth);
-		
-			}
-			
-			//////////////
-			sKey = this.checked.main;
-			aList = this.data.find(el=>el.key==sKey);
-			let bRand = true;
-			if(aList && aList.data && aList.data.list && aList.data.list.data){
-				bRand = aList.data.list.bShuffle!==false;
-				aList = aList.data.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
+				oContent = this.subsection.find(el=>el.key==sKey);
 			} else {
-				aList = [];
-			}
+				sKey = this.checked.section;
+				if(sKey && this.section && this.section.length>0) {
+					oContent = this.section.find(el=>el.key==sKey);			
+				} else {
+					sKey = this.checked.main;
+					oContent = this.data.find(el=>el.key==sKey);						
+				}				
+			}			
 			
-			return shuffle(aList, bRand, this.smth);
+			let bRand = true;
+			if(oContent && oContent.data && oContent.data.list && oContent.data.list.data){
+				bRand = oContent.data.list.bShuffle!==false;
+				aList = oContent.data.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
+				o.list = shuffle(aList, bRand, this.smth);
+			}
+			if(oContent && oContent.data && oContent.data.pre){
+				sPre = oContent.data.pre;
+				o.pre = sPre;
+			}
+			return o
 		},
 		
 		showReult: function(){
-			return (this.displayData && this.displayData.length>0)
+			return (this.displayData.list && this.displayData.list.length>0)
 		},
 		
 		random_result: function(){
-			if(!this.displayData.length) {
+			if(!this.displayData.list.length) {
 				return "";
 			}
-			let nRand = randd(0, this.displayData.length-1);
-			return this.displayData[nRand].title;
+			let nRand = randd(0, this.displayData.list.length-1);
+			return this.displayData.list[nRand].title;
 		},
 		
 		displayMove: function(){

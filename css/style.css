@@ -93,9 +93,6 @@ li {
 br {
   clear: both;
 }
-p {
-  margin: 0 0 10.5px;
-}
 a {
   color: #3fa875;
   transition: color .3s;
@@ -383,6 +380,10 @@ a:hover {
 .contain h1 {
   font-size: 24px;
   font-weight: bold;
+}
+.contain #getRandom {
+  margin: 0;
+  margin-left: 0.5rem;
 }
 .contain .highlight {
   border-radius: 3px;
