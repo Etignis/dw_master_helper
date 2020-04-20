@@ -223,6 +223,7 @@ a:hover {
   flex-grow: 3;
   flex-shrink: 0;
   background: rgba(74, 74, 74, 0.9);
+  position: relative;
 }
 #menu::-webkit-scrollbar {
   width: 0.5rem;
@@ -304,12 +305,15 @@ a:hover {
 }
 #data_list {
   background: #333;
+  background: linear-gradient(to top, #2b2b2b, #333 11rem);
 }
 #section_list {
   background: #3b3b3b;
+  background: linear-gradient(to top, #333333, #3b3b3b 11rem);
 }
 #subsection_list {
   background: #424242;
+  background: linear-gradient(to top, #3b3b3b, #424242 11rem);
 }
 @media screen and (min-width: 65em) {
   #menu {
@@ -352,6 +356,16 @@ a:hover {
   max-width: 80rem;
   margin: 0 auto;
 }
+.move_link {
+  border-radius: 5px;
+  padding: .5rem;
+  background: #424242;
+}
+li.no_offset {
+  padding-left: 0;
+  margin-left: 0;
+  display: block;
+}
 .contain {
   background: #4a4a4a;
   overflow-x: hidden;
@@ -372,7 +386,7 @@ a:hover {
   scrollbar-track-color: transparent;
 }
 .contain .padding {
-  padding: 1rem 2rem;
+  padding: 0 2rem;
 }
 .contain .item {
   margin: 1rem 0;
@@ -417,7 +431,14 @@ a:hover {
   justify-content: space-between;
   width: 100%;
   padding: 1rem;
+  flex-grow: 1;
   background: rgba(74, 74, 74, 0.9);
+  position: relative;
+  box-shadow: 0 0 20px 10px black;
+}
+#contain footer {
+  margin-top: 4rem;
+  border-top: 1px solid gray;
 }
 .info {
   border: 2px solid #31835b;
@@ -425,6 +446,30 @@ a:hover {
   border-radius: 3px;
   background: rgba(49, 131, 91, 0.4);
   color: white;
+}
+.move_options {
+  margin: 2rem 0 1rem;
+  padding-left: 0;
+}
+.checkboxer {
+  position: relative;
+  cursor: pointer;
+  transition: color .3s;
+}
+.checkboxer:hover {
+  color: white;
+}
+.checkboxer::before {
+  content: "";
+  display: inline-block;
+  border-radius: 3px;
+  border: 2px solid currentColor;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+.checkboxer.selected::before {
+  background: #31835b;
 }
 .creditials {
   display: flex;
@@ -457,4 +502,9 @@ a:hover {
 .creditials .source img {
   max-width: 350px;
   max-height: 100px;
+}
+@media screen and (min-width: 65em) {
+  #contain {
+    box-shadow: 0 0 20px 10px #333;
+  }
 }

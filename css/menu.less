@@ -8,7 +8,9 @@
 	flex-grow: 3;
 	flex-shrink: 0;
 	background: fade(@gray3, 90%);
+	position: relative;
 	.scrollbars(1rem/2, @color /*fade(black, 20%)*/, transparent);
+
 	
 	&.maximise{
 		max-height: 65vh;
@@ -75,14 +77,18 @@
 	}
 	
 }
+@grad_perc: 3%;
 #data_list{
 	background: @gray;
+	background: linear-gradient(to top, darken(@gray, @grad_perc), @gray 11rem);
 }
 #section_list{
 	background: @gray1;
+	background:  linear-gradient(to top, darken(@gray1, @grad_perc), @gray1 11rem);
 }
 #subsection_list{
 	background: @gray2;
+	background:  linear-gradient(to top, darken(@gray2, @grad_perc), @gray2 11rem);
 }
 
 @media screen and (min-width: @m_w_1) {

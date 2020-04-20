@@ -10,6 +10,28 @@ function shuffle(o, bRand){
   return o;
 };
 
+function parseDie(sDie){
+	// nDn+n
+	let oDice = sDie.match(/(\d+)?d(\d+)([+-]\d+)?/i); // 1,2,4,5
+	
+	let nDie = Number(oDice[2]);
+	let nCount = Number(oDice[1]);
+	let nMod = Number(oDice[3]);
+	
+	let nResult = 0;
+
+	if(nDie) {
+		nResult = randd(1,nDie);
+	}
+	if(nCount) {
+		nResult = nResult*nCount;
+	}
+	if(nMod) {
+		nResult = nResult+nMod;
+	}
+	return nResult;
+}
+
 	////////////////////
 	
 Vue.component('item', {
@@ -171,7 +193,11 @@ Vue.component('chooser', {
 		},
 		val: {
 			type: [String, Number]
-		}		
+		},
+		selected: {
+			type: Boolean,
+			default: false
+		}
 		
 	},
 	data: function(){
@@ -179,7 +205,7 @@ Vue.component('chooser', {
 	},
 	methods: {
 		check: function(oEvent){
-			let bChecked = oEvent.target.checked;
+			let bChecked = !this.selected;
 			let o = {
 				key: this.name, 
 				value: this.val,
@@ -189,13 +215,13 @@ Vue.component('chooser', {
 		}
 	},
 	computed: {
-
+		
 	},
 	created: function(){
 		
 	},
-	template: `<li>
-		<label><input type='checkbox' v-if="type=='checkbox'" @input="check"> {{title}} </label>
+	template: `<li class='no_offset'>
+		<span :class='{checkboxer: true, selected: selected }' v-if="type=='checkbox'" @click="check">{{title}}</span>
 	</li>`
 });
 
@@ -239,7 +265,7 @@ var app = new Vue({
 			}
 			let aFiltered = this.section.find(el=>el.key==sKey);
 			let bMove = !!aFiltered.condition;
-			aList = bMove? [] : aFiltered.sub;
+			aList = bMove? [] : aFiltered.sub || aFiltered.data && aFiltered.data.moves || [];
 			return aList;
 		},
 		
@@ -287,19 +313,47 @@ var app = new Vue({
 			if(!this.displayData.list.length) {
 				return "";
 			}
-			let nRand = randd(0, this.displayData.list.length-1);
-			return this.displayData.list[nRand].title;
+			let nStart = 0;
+			let aResult = [];
+			let nCount = 1;
+			if(this.displayData.options) {
+				let aSelected = this.displayData.options.filter(el=>el.checked);
+				if(aSelected && aSelected.length>0) {			
+					let oOffset = this.displayData.options.find(el=>el.key == 'offset_start' && el.checked);	
+					let oNumber = this.displayData.options.find(el=>el.key == 'count' && el.checked);			
+					if(oOffset) {
+						debugger;
+						nStart = parseDie(oOffset.value);
+					}
+					if(oNumber) {
+						nCount = oNumber.value;
+					}
+				}
+			}
+			
+			for (let i=0; i<nCount; i++) {
+				let nRand = randd(nStart, this.displayData.list.length-1);
+				aResult.push(this.displayData.list[nRand].title)
+			}
+			return aResult.join("<hr>");
 		},
 		
-		displayMove: function(){
-			sKey = this.checked.section;
-			if(sKey && this.section && this.section.length>0) {
-				aList = this.section.find(el=>el.key==sKey);
-				if(aList){
-					let bMove = !!aList.condition;
-					return bMove? aList : {};
-				}		
+		 displayMove: function(){
+			let aList = [];
+			sKey = this.checked.subsection;
+			if(sKey && this.subsection && this.subsection.length>0) {
+				aList = this.subsection.find(el=>el.key==sKey);			
+			} else {
+				sKey = this.checked.section;
+				if (sKey && this.section && this.section.length>0) {
+					aList = this.section.find(el=>el.key==sKey);
+				}
 			}
+			
+			if(aList){
+				let bMove = !!aList.condition;
+				return bMove? aList : {};
+			}		
 			
 			return {};
 		},
@@ -350,13 +404,17 @@ var app = new Vue({
 			this.data.forEach(function(oEl){
 				if(oEl.data && oEl.data.moves) {
 					oEl.data.moves.forEach(function(oMove){
-						that._translateMove(oMove)
-						// oMove.results.forEach(function(oResult){
-							// if(oResult.links && oResult.links.length>0) {
-								
-							// }
-						// })
+						that._translateMove(oMove);						
 					})
+				} 
+				if(oEl.sub && oEl.sub.length>0){
+					oEl.sub.forEach(function(oSub){
+						if(oSub.data && oSub.data.moves) {
+							oSub.data.moves.forEach(function(oMove){
+								that._translateMove(oMove);						
+							})
+						} 
+					});
 				}
 			});
 		},
@@ -366,7 +424,7 @@ var app = new Vue({
 				if(res.links && res.links.length>0) {
 					res.links = res.links.map(link=>{
 						let sLinktitle = this._getLinkTitle(link);
-						return `<a href="#${link}">${sLinktitle}</a>`
+						return `<a href="#${link}" class='move_link'>${sLinktitle}</a>`
 					}) || [];
 				}
 				
@@ -434,7 +492,7 @@ var app = new Vue({
 		//moves
 		
 		onChoose: function({key, value, checked}){
-			debugger;
+
 			let oContent = {};
 			
 			let sKey = this.checked.subsection;
@@ -449,7 +507,10 @@ var app = new Vue({
 					oContent = this.data.find(el=>el.key==sKey);						
 				}				
 			}		
-			debugger;
+			
+			let oOption = oContent.data.list.meta.options.find(el=>el.key==key);
+			oOption.checked = checked;
+
 		},
 		
 		updateHash: function() {

@@ -114,15 +114,16 @@
 					</div>
 					
 					<p v-html="displayData.pre">
-					</p>
+					</p>		
 					
-					<ul>
+					<ul class='move_options'>
 						<chooser v-for="item in displayData.options"
 							:key="item.key"
 							:name="item.key"
 							:title="item.title"
 							:val="item.value"
 							:type="item.type"
+							:selected="item.checked"
 							@iclick="onChoose($event)"
 						></chooser>
 					</ul>
@@ -143,20 +144,23 @@
 			</div>
 			
 			<footer>
+				<p>
+					Данные распространются по лицензии Creative Commons Attribution 4.0 Unported License.
+				</p>
 				<h1>
 					Источникик и полезности: 
 				</h1>
-				<div class='creditials'>
-					<div class='source'>
-						<a href="https://irontales.ru/" class='outer_logo'>
-							<img src='https://irontales.ru/img/logo.png'>
-							<!-- <span>Источник большинства ходов и исходов</span> -->
-						</a>
-					</div>
+				<div class='creditials'>				
 					<div class='source'>
 						<a href="http://indigogames.ru/" class='outer_logo'>
 							<img src='http://indigogames.ru/wp-content/uploads/2019/08/cropped-indigo_logo_big_new.png'>
 							<!-- <span>Магазин, где можно приобрести Dungeon World и много чего другого</span> -->
+						</a>
+					</div>
+					<div class='source'>
+						<a href="https://irontales.ru/" class='outer_logo'>
+							<img src='https://irontales.ru/img/logo.png'>
+							<!-- <span>Источник большинства ходов и исходов</span> -->
 						</a>
 					</div>
 				</div>
