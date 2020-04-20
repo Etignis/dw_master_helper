@@ -109,10 +109,24 @@
 						<h1>Случайный результат:</h1>
 						<button @click="_random" title='Получить случайный результат' id='getRandom'>🎲</button>
 					</header>
+					
 					<div class='highlight' v-html="random_result">
 					</div>
+					
 					<p v-html="displayData.pre">
 					</p>
+					
+					<ul>
+						<chooser v-for="item in displayData.options"
+							:key="item.key"
+							:name="item.key"
+							:title="item.title"
+							:val="item.value"
+							:type="item.type"
+							@iclick="onChoose($event)"
+						></chooser>
+					</ul>
+					
 				</section>
 				<section class='padding'>
 					<h1>Все варианты:</h1>

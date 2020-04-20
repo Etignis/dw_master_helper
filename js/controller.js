@@ -155,6 +155,50 @@ Vue.component('move', {
 </article>`
 });
 
+Vue.component('chooser', {
+	props: {		
+		title: {
+			type: String,
+			default: ""
+		},	
+		type: {
+			type: String,
+			default: ""
+		},	
+		name: {
+			type: String,
+			default: ""
+		},
+		val: {
+			type: [String, Number]
+		}		
+		
+	},
+	data: function(){
+		return {};
+	},
+	methods: {
+		check: function(oEvent){
+			let bChecked = oEvent.target.checked;
+			let o = {
+				key: this.name, 
+				value: this.val,
+				checked: bChecked
+			};
+			this.$emit('iclick', o);
+		}
+	},
+	computed: {
+
+	},
+	created: function(){
+		
+	},
+	template: `<li>
+		<label><input type='checkbox' v-if="type=='checkbox'" @input="check"> {{title}} </label>
+	</li>`
+});
+
 	
 var app = new Vue({
 	el: '#app',
@@ -227,6 +271,10 @@ var app = new Vue({
 			if(oContent && oContent.data && oContent.data.pre){
 				sPre = oContent.data.pre;
 				o.pre = sPre;
+			}
+			if(oContent && oContent.data && oContent.data.list && oContent.data.list.meta && oContent.data.list.meta.options){
+				let aOpts = aOptions = oContent.data.list.meta.options;
+				o.options = aOpts;
 			}
 			return o
 		},
@@ -381,6 +429,27 @@ var app = new Vue({
 		subsectionClick: function({src, name}){
 			this.checked.subsection = `${name}`;
 			this.updateHash();
+		},
+		
+		//moves
+		
+		onChoose: function({key, value, checked}){
+			debugger;
+			let oContent = {};
+			
+			let sKey = this.checked.subsection;
+			if(sKey && this.subsection && this.subsection.length>0) {
+				oContent = this.subsection.find(el=>el.key==sKey);
+			} else {
+				sKey = this.checked.section;
+				if(sKey && this.section && this.section.length>0) {
+					oContent = this.section.find(el=>el.key==sKey);			
+				} else {
+					sKey = this.checked.main;
+					oContent = this.data.find(el=>el.key==sKey);						
+				}				
+			}		
+			debugger;
 		},
 		
 		updateHash: function() {

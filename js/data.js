@@ -1027,17 +1027,19 @@ var data = [
 								{
 									title: "Властвует/древний",
 									checked: false,
-									type: checkbox,
-									offset: "1d4"
+									type: "checkbox",
+									key: "offset_start",
+									value: "1d4"
 								},
 								{
-									title: "Запасливый,
+									title: "Запасливый",
 									checked: false,
-									type: checkbox,
-									cou8nt: 2
+									type: "checkbox",
+									key: "count",
+									value: 2
 								}
 							]
-						}
+						},
 						data: [
 							"Несколько монет, 2d8 или около того ",
 							" Предмет, полезный в текущей ситуации ",
