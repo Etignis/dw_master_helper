@@ -37,7 +37,7 @@
 	<div class='wrap'  id='app' >
 		<menu id='menu' :class='{maximise: enlarge_menu}' @click="menu_priority(1)">
 			<ul id="data_list">
-				<item v-for="item in data"
+				<item v-for="item in structure"
 					:key="item.key"
 					:name="item.key"
 					src='data'
@@ -92,6 +92,7 @@
 				</p>
 			</div>
 		
+			<!-- Ходы -->
 			<div id='move' class='widther' v-show="showMove">
 				<move 
 					:name="displayMove.key"
@@ -99,10 +100,18 @@
 					:condition="displayMove.condition"
 					:results="displayMove.results"
 					:variants="displayMove.variants"
+					@fail="show_move_fail"					
 				>
 				</move>
+				
+				<ul class="move_fails">
+					<li v-for="el in move_fails">
+						{{el}}
+					</li>
+				</ul>
 			</div>
 			
+			<!-- Списки -->
 			<div id='result' class='widther'  v-show="showReult" >
 				<section class='padding'>
 					<header>
@@ -117,7 +126,7 @@
 					</p>		
 					
 					<ul class='move_options'>
-						<chooser v-for="item in displayData.options"
+						<chooser v-for="item in options"
 							:key="item.key"
 							:name="item.key"
 							:title="item.title"
@@ -168,6 +177,42 @@
 			
 		</div>
 		
+		<div class="floater">
+			<div class="timer_settings_container">
+				<transition name="fade">
+					<div class='opt_container' v-show="dm_helper.show_sources">
+						<ul>						
+							<li v-for="opt in dm_helper.sources" 
+								v-bind:key="opt.key"
+								:class='{option: true, active: opt.active}'
+								@click="onPressHelperSrc(opt)">
+								{{opt.title}}
+							</li>				
+						</ul>
+					</div>
+				</transition>
+				<button class='timer_settings' title='Настройки подсказчика' @click="dm_helper.show_sources = !dm_helper.show_sources">
+					<span class='ico' data-icons="☀">✎</span>
+				</button>
+			</div>
+			
+			<div>
+				<button :class='{play: true, timer: dm_helper.active}' title='Подсказчик' @click="switch_helper">
+					<span class='ico' data-icons="♘">⚅</span>
+				</button>
+				<transition name="fade">
+					<div class='prompt_container' v-show="dm_helper.show_prompt">
+						<div class='text' v-html="dm_helper.prompt">
+					
+						</div>
+						<button @click="next_prompt">
+							<span class='ico' data-icons="➔➛➜➤➧">⟳</span>
+						</button>
+					</div>
+				</transition>
+			</div>
+		</div>
+		
 	</div>
 	
 	<div id='preload' style="position: absolute; overflow :hidden; width: 0; height: 0">
@@ -179,9 +224,11 @@
 		<img src="img/brush6.png">
 	</div>
 
+	<script type='text/javascript' src="js/lib_DW.js" defer></script>
 	<script type='text/javascript' src="js/vue.js" defer></script>
-  <script type='text/javascript' src='js/data.js' defer></script>
+  <!-- <script type='text/javascript' src='js/data.js' defer></script> -->
   <script type='text/javascript' src='js/controller.js' defer></script>
+
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (d, w, c) {

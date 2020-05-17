@@ -19,7 +19,7 @@
 						list: {
 							data: [
 								"Используйте ход монстра, угрозы или мест",
-								"Открой неприятную истину.| Что им было бы неприятно сейчас узнать?",
+								"Открой неприятную истину.| Что им было бы неприятно сейчас узнать? Неприятная истина — это любой факт, в который игроки предпочли бы не верить. Комната полна ловушек. Услужливый гоблин — шпион. Позвольте игрокам осознать, в какую глубокую яму они угодили.",
 								"Покажи признаки надвигающейся угрозы.| Что будет, если они не вмешаются в происходящее? Или какие следы или признаки опасности они могут сейчас обнаружить?",
 								"Нанеси урон.| Что угрожает их здоровью?",
 								"Расходуй их запасы.| Чего они могут лишиться сейчас? У них будет шанс вернуть это?",
@@ -30,7 +30,8 @@
 								"Предоставь возможность.| Что полезного или ценного они сейчас могут получить? Какова будет цена?",
 								"Назови условия и переспроси.| Какую цену им нужно заплатить, чтобы все-таки успешно совершить заявленный ход? Какие последствия их ждут?",
 								"Поставь их в сложную ситуацию.| Из каких равнозначных вариантов им придется выбирать? Они будут одинаково плохи или одинаково хороши?",
-								"Измени окружение. |Как может измениться окружение (местность, освещение, температура, погода и т.д.)?"
+								"Измени окружение. |Как может измениться окружение (местность, освещение, температура, погода и т.д.)?",
+								"Покажи недостаток класса, расы, снаряжения. |Своя слабая сторона есть у всего. Орки могут особенно жаждать эльфийской крови. Магия священника может потревожить сон дремлющих тёмных сил. Факел, освещающий путь, может привлечь внимание таящихся во тьме глаз."
 							]
 						}
 					},
@@ -43,13 +44,13 @@
 					data: {
 						list: {
 							data: [
-								"Измените окружение.",
-								"Укажите на надвигающуюся угрозу.",
-								"Введите новую фракцию или вид существ.",
-								"Используйте опасность фракции или вида существ.",
-								"Заставьте вернуться назад.",
-								"Предложите богатства за цену.",
-								"Бросьте вызов одному из персонажей."
+								"Измените окружение.| Окружение это общая атмосфера места, где находятся персонажи: ветвящиеся туннели, кривые деревья, безопасная тропа… Этим ходом вы можете представить новый антураж: туннели постепенно изгибаются, лес становится истлевшим и зловещим, тропинка кончается и персонажи вступают в чащу. Используйте этот ход, чтобы разнообразить местность на пути персонажей и населяющих её созданий.",
+								"Укажите на надвигающуюся угрозу. | Если в подземелье в ожидании игроков томится нечто, с помощью этого хода можно показать его следы и признаки. Опишите следы дракона в грязи или слизистый след желатинового куба.",
+								"Введите новую фракцию или вид существ. | Этот ход предполагает явное столкновение или вброс данных. Не мелочитесь: игроки должны понимать, что происходит. Правда, в лоб действовать тоже не надо: глава злобной секты не обязан размахивать плакатом и вопить на адских языках. Жесткое применение этого хода переходит в боевую сцену или атаку из засады.",
+								"Используйте опасность фракции или вида существ.| Смотрите на фракции и виды широко. Орков сопровождают охотничьи варги. Безумному культу может служить нежить или монстры из глубин бездны. Вы часто будете делать этот ход не задумываясь, а просто красиво вводя в игру уже заготовленные идеи.",
+								"Заставьте вернуться назад. | Взгляните на места, нанесённые на карту. Есть ли там что-то полезное, но не найденное игроками? Можете ли вы добавить новое препятствие, преодолимое, если вернуться назад? Не находится ли ключ от преградившей путь героев двери где-то в прошлых комнатах? что там ищменилось? Какие новые угрозы? О чем забыли?",
+								"Предложите богатства за цену. | Чего желают игроки? Чем они готовы пожертвовать ради этого? Расположите желанный предмет вне досягаемости. Выберите нечто, ограничивающее персонажей: время, очки здоровья, снаряжение. Найдите способ дать им желаемое, но ценой потери чего-то еще.",
+								"Бросьте вызов одному из персонажей. | Чтобы бросить вызов персонажу, посмотрите, в чём он хорош. Поставьте перед вором запертую дверь, покажите священнику служителей враждебного бога. Дайте волшебнику исследовать мистические тайны. Пускай воину встретится пара врагов с толстыми черепами. Предоставьте персонажам возможность блеснуть. Или наоборот, потавьте трудное препятствие." 
 							]
 						}
 					},
@@ -77,7 +78,55 @@
 							]
 						}
 					},
+				},				
+				{
+					title: "Морфемы Проппа",
+					key: "Propp_morphems",
+					color: "",
+					ico: "",
+					data: {
+						pre: "Морфемы Проппа - составные части традиционной сказки или мифа.",						
+						list: {	
+							meta: {								
+								bShuffle: false,
+							},
+							data: [
+								"Отлучка, пропажа кого-то или чего-то",	
+								"Обращение к герою с запретом, предупреждение",		
+								"Нарушение запрета",			
+								"Разведка, выведывание со стороны антагониста",		
+								"Получение антагонистом сведений о жертве",		
+								"Подвох, обман со стороны антагониста",		
+								"Пособничество со стороны обманутой жертвы",		
+								"Вредительство со стороны антагониста",		
+								"Беда, недостача, желание героя иметь что-либо",
+								"Решение героя о противодействии",		
+								"Отправка героя из дома",		
+								"Оспытание героя со стороны дарителя волшебного средства или помощника",		
+								"Реакция героя на действия дарителя",		
+								"Получение героем волшебного средства",
+								"Пространственное перемещение героя",		
+								"Столкновение героя и антагониста",		
+								"Клеймение героя",		
+								"Победа героя над антагонистом",		
+								"Ликвидация беды или недостачи",
+								"Возвращение героя",		
+								"Преследование героя, погоня",		
+								"Спасение героя",		
+								"Неузнанное прибытие героя домой",		
+								"Необоснованные притязания ложного героя",
+								"Трудная задача для героя",		
+								"Решение задачи",		
+								"Узнавание героя",		
+								"Изобличение ложного героя или антагониста",		
+								"Трансформация, получение героем нового облика",	
+								"Наказание врага",		
+								"Вступление в брак и воцарение героя"
+							]
+						}
+					},
 				},
+				
 			]
 		},
 		
@@ -93,236 +142,281 @@
 					key: "common_moves",
 					color: "",
 					ico: "",
-					data: {
-						moves: [
+					sub: [
 							{
 								title: "Руби и кромсай",
 								key: "hack_slash",
-								condition: "Когда вы <b>атакуете противника в ближнем бою</b>, бросьте+СИЛ.",
-								results: [
-									{
-										title: "На 10+ вы наносите урон противнику и уходите от его атаки. Если хотите, можете нанести дополнительно 1к6 урона, но пропустить ответную атаку."
-									},
-									{
-										title: "На 7–9 вы наносите урон противнику, а он атакует вас"
-									},
-									{
-										title: "На 6-",
-										links: [
-											"fails|fight|melee",
-											"fails|fight|might_enemy",
-											"fails|fight|agile_enemy",
-											"fails|fight|beast",
-										] 
-									}
-								]
+								data: {
+									move: {
+										data: {
+											condition: "Когда вы <b>атакуете противника в ближнем бою</b>, бросьте+СИЛ.",
+											results: [
+												{
+													title: "На 10+ вы наносите урон противнику и уходите от его атаки. Если хотите, можете нанести дополнительно 1к6 урона, но пропустить ответную атаку."
+												},
+												{
+													title: "На 7–9 вы наносите урон противнику, а он атакует вас"
+												},
+												{
+													title: "На 6-",
+													links: [
+														"fails|fight|melee",
+														"fails|fight|might_enemy",
+														"fails|fight|agile_enemy",
+														"fails|fight|beast",
+													] 
+												}
+											]
+										}
+									}									
+								}								
 							},
 							{
 								title: "Дать залп",
 								key: "shoot",
-								condition: "Когда вы <b>находясь на расстоянии, вы целитесь и стреляете в противника</b>, бросьте+ЛОВ.",
-								results: [
-									{
-										title: "На 10+ вы делаете точный выстрел и наносите обычный урон."
-									},
-									{
-										title: "На 7–9 нанесите урон и выберите один из вариантов:",
-										list: {
-												data: [
+								data: {
+									move: {
+										data: {
+											condition: "Когда вы <b>находясь на расстоянии, вы целитесь и стреляете в противника</b>, бросьте+ЛОВ.",
+											results: [
 												{
-													title: "Чтобы попасть, ваш герой должен занять опасную позицию. Ведущий опишет детали.",
-													links:[]
+													title: "На 10+ вы делаете точный выстрел и наносите обычный урон."
 												},
 												{
-													title: "Выстрел выйдет не очень удачный: -1к6 урона.",
-													links:[]
+													title: "На 7–9 нанесите урон и выберите один из вариантов:",
+													list: {
+															data: [
+															{
+																title: "Чтобы попасть, ваш герой должен занять опасную позицию. Ведущий опишет детали.",
+																links:[]
+															},
+															{
+																title: "Выстрел выйдет не очень удачный: -1к6 урона.",
+																links:[]
+															},
+															{
+																title: "Придется сделать несколько выстрелов: боезапас падает на 1.",
+																links:[]
+															},
+														]
+													}
 												},
 												{
-													title: "Придется сделать несколько выстрелов: боезапас падает на 1.",
-													links:[]
-												},
+													title: "На 6-",
+													links: [
+														"fails|fight|range",
+														"fails|fight|might_enemy",
+														"fails|fight|agile_enemy",
+														"fails|fight|beast",
+													] 
+												}
 											]
 										}
-									},
-									{
-										title: "На 6-",
-										links: [
-											"fails|fight|range",
-											"fails|fight|might_enemy",
-											"fails|fight|agile_enemy",
-											"fails|fight|beast",
-										] 
 									}
-								]
+								}
 							},
 							{
 								title: "Спастись от угрозы",
 								key: "save",
-								condition: "Когда вы <b>действуете, невзирая на опасность или оказываетесь в бедственном положении</b>, скажите, как именно вы решаете возникшую проблему. Если вы решаете её посредством... ●	...грубой силы — бросьте+СИЛ. ●	...проворства и скорости — бросьте+ЛОВ ●	...выносливости — бросьте+ТЕЛ. ●	...сообразительности — бросьте+ИНТ. ●	...силы духа — бросьте+МДР. ●	...шарма и изящных слов, бросьте+ХАР.",
-								
-								results: [
-									{
-										title: "На 10+ вам удаётся осуществить задуманное и избежать опасности."
-									},
-									{
-										title: "На 7–9 вы спотыкаетесь, медлите или отступаете: ведущий может предложить вам исход похуже, невыгодную сделку или тяжёлый выбор.",
-										links:["fails|worst"]
-									},
-									{
-										title: "На 6-",
-										links: [
-											"fails|worst"
-										] 
+								data: {
+									move: {
+										data: {
+											condition: "Когда вы <b>действуете, невзирая на опасность или оказываетесь в бедственном положении</b>, скажите, как именно вы решаете возникшую проблему. Если вы решаете её посредством... ●	...грубой силы — бросьте+СИЛ. ●	...проворства и скорости — бросьте+ЛОВ ●	...выносливости — бросьте+ТЕЛ. ●	...сообразительности — бросьте+ИНТ. ●	...силы духа — бросьте+МДР. ●	...шарма и изящных слов, бросьте+ХАР.",
+											
+											results: [
+												{
+													title: "На 10+ вам удаётся осуществить задуманное и избежать опасности."
+												},
+												{
+													title: "На 7–9 вы спотыкаетесь, медлите или отступаете: ведущий может предложить вам исход похуже, невыгодную сделку или тяжёлый выбор.",
+													links:["fails|worst"]
+												},
+												{
+													title: "На 6-",
+													links: [
+														"fails|worst"
+													] 
+												}
+											]
+										}
 									}
-								]
+								}
 							},
 							{
 								title: "Встать на защиту",
 								key: "defend",
-								condition: "Когда вы <b>защищаете от нападения кого-то или что-то</b>, бросьте+ТЕЛ",
-								
-								results: [
-									{
-										title: "На 10+ вы получаете запас 3. "
-									},
-									{
-										title: "На 7–9 — запас 1. ",
-									},
-									{
-										title: "На 6-",
-										links: [
-											"fails|worst"
-										] 
+								data: {
+									move: {
+										data: {
+											condition: "Когда вы <b>защищаете от нападения кого-то или что-то</b>, бросьте+ТЕЛ",
+											
+											results: [
+												{
+													title: "На 10+ вы получаете запас 3. "
+												},
+												{
+													title: "На 7–9 — запас 1. ",
+												},
+												{
+													title: "На 6-",
+													links: [
+														"fails|worst"
+													] 
+												}
+											],
+											variants: {
+												title: "Когда атакуют то, что вы защищаете, вы можете потратить запас в соотношении один к одному на действия из следующего списка:",
+												list: [
+													{
+														title: "Заслонить объект и принять атаку на себя."
+													},
+													{
+														title: "Ополовинить урон."
+													},
+													{
+														title: "Заставить атакующего открыться; один из союзников получает +1 на следующий бросок против него."
+													},
+													{
+														title: "Нанести атакующему урон, равный вашему уровню."
+													},
+												]
+											}
+										}
 									}
-								],
-								variants: {
-									title: "Когда атакуют то, что вы защищаете, вы можете потратить запас в соотношении один к одному на действия из следующего списка:",
-									list: [
-										{
-											title: "Заслонить объект и принять атаку на себя."
-										},
-										{
-											title: "Ополовинить урон."
-										},
-										{
-											title: "Заставить атакующего открыться; один из союзников получает +1 на следующий бросок против него."
-										},
-										{
-											title: "Нанести атакующему урон, равный вашему уровню."
-										},
-									]
 								}
 							},
 							{
 								title: "Покопаться в памяти",
-								key: "remember",
-								condition: "Когда вы <b>пытаетесь найти в залежах памяти сведения о чём-либо</b>, бросьте+ИНТ",
-								
-								results: [
-									{
-										title: "На 10+ ведущий сообщает вам что-то интересное и полезное о том, что связано с текущей ситуацией. "
-									},
-									{
-										title: "На 7–9 ведущий говорит что-то интересное, а как извлечь пользу — ваша проблема. Ведущий может спросить: «Откуда вы это знаете?» Отвечайте честно.",
-									},
-									{
-										title: "На 6-",
-										links: [
-											"fails|skills|lore"
-										] 
+								key: "remember",data: {
+									move: {
+										data: {
+											condition: "Когда вы <b>пытаетесь найти в залежах памяти сведения о чём-либо</b>, бросьте+ИНТ",
+											
+											results: [
+												{
+													title: "На 10+ ведущий сообщает вам что-то интересное и полезное о том, что связано с текущей ситуацией. "
+												},
+												{
+													title: "На 7–9 ведущий говорит что-то интересное, а как извлечь пользу — ваша проблема. Ведущий может спросить: «Откуда вы это знаете?» Отвечайте честно.",
+												},
+												{
+													title: "На 6-",
+													links: [
+														"fails|skills|lore"
+													] 
+												}
+											]
+										}
 									}
-								]
+								}
 							},
 							{
 								title: "Изучить обстановку",
 								key: "investigate",
-								condition: "Когда вы <b>внимательно изучаете человека или ситуацию</b>, бросьте+МДР",
-								
-								results: [
-									{
-										title: "На 10+ задайте ведущему три вопроса из списка."
-									},
-									{
-										title: "На 7–9 задайте один вопрос.",
-									},
-									{
-										title: "На 6-",
-										links: [
-											"fails|skills|lore"
-										] 
+								data: {
+									move: {
+										data: {
+											condition: "Когда вы <b>внимательно изучаете человека или ситуацию</b>, бросьте+МДР",
+											
+											results: [
+												{
+													title: "На 10+ задайте ведущему три вопроса из списка."
+												},
+												{
+													title: "На 7–9 задайте один вопрос.",
+												},
+												{
+													title: "На 6-",
+													links: [
+														"fails|skills|lore"
+													] 
+												}
+											],
+											variants: {
+												title: "Получите +1 на следующий ход, если используете полученные сведения.",
+												list: [
+													{
+														title: "Что здесь недавно произошло?"
+													},
+													{
+														title: "Что вот-вот случится?"
+													},
+													{
+														title: "Чего мне стоит опасаться?"
+													},
+													{
+														title: "Что здесь есть полезного или ценного для меня?"
+													},
+													{
+														title: "Кто здесь на самом деле главный?"
+													},
+													{
+														title: "Что здесь не то, чем кажется?"
+													},
+												]
+											}
+										}
 									}
-								],
-								variants: {
-									title: "Получите +1 на следующий ход, если используете полученные сведения.",
-									list: [
-										{
-											title: "Что здесь недавно произошло?"
-										},
-										{
-											title: "Что вот-вот случится?"
-										},
-										{
-											title: "Чего мне стоит опасаться?"
-										},
-										{
-											title: "Что здесь есть полезного или ценного для меня?"
-										},
-										{
-											title: "Кто здесь на самом деле главный?"
-										},
-										{
-											title: "Что здесь не то, чем кажется?"
-										},
-									]
 								}
 							},
 							{
 								title: "Договориться",
 								key: "agreement",
-								condition: "Когда вы <b>пытаетесь повлиять на персонажа ведущего и манипулировать им</b>, бросьте+ХАР. Повлиять можно, предложив ему что-то, что ему необходимо или чего он желает.",
-								
-								results: [
-									{
-										title: "Если вы получаете 10+, он просит вас о чём-то и, заручившись вашим обещанием, сам помогает вам."
-									},
-									{
-										title: "На 7–9 персонажу необходимо немедленно предоставить какие-то гарантии, что обещание будет исполнено.",
-									},
-									{
-										title: "На 6-",
-										links: [
-											"fails|worst",
-											"fails|chat|noble",
-											"fails|chat|clergy",
-											"fails|chat|lowyer",
-											"fails|chat|criminal",
-											"fails|chat|crowd"
-										] 
+								data: {
+									move: {
+										data: {
+											condition: "Когда вы <b>пытаетесь повлиять на персонажа ведущего и манипулировать им</b>, бросьте+ХАР. Повлиять можно, предложив ему что-то, что ему необходимо или чего он желает.",
+											
+											results: [
+												{
+													title: "Если вы получаете 10+, он просит вас о чём-то и, заручившись вашим обещанием, сам помогает вам."
+												},
+												{
+													title: "На 7–9 персонажу необходимо немедленно предоставить какие-то гарантии, что обещание будет исполнено.",
+												},
+												{
+													title: "На 6-",
+													links: [
+														"fails|worst",
+														"fails|chat|noble",
+														"fails|chat|clergy",
+														"fails|chat|lowyer",
+														"fails|chat|criminal",
+														"fails|chat|crowd"
+													] 
+												}
+											]
+										}
 									}
-								]
+								}
 							},
 							{
 								title: "Помочь или помешать",
-								key: "influence",
-								condition: "Когда вы <b>помогаете или мешаете кому-то, с кем у вас узы</b>, бросьте+число уз, связывающих вас.",
-								
-								results: [
-									{
-										title: "На 10+ они получают +1 или -2 к броску, на ваш выбор."
-									},
-									{
-										title: "На 7–9 всё то же самое, но вы сами оказываетесь в опасности, получаете отпор или расплачиваетесь как-то ещё.",
-									},
-									{
-										title: "На 6-",
-										links: [
-											"fails|worst"
-										] 
+								key: "influence",data: {
+									move: {
+										data: {
+											condition: "Когда вы <b>помогаете или мешаете кому-то, с кем у вас узы</b>, бросьте+число уз, связывающих вас.",
+											
+											results: [
+												{
+													title: "На 10+ они получают +1 или -2 к броску, на ваш выбор."
+												},
+												{
+													title: "На 7–9 всё то же самое, но вы сами оказываетесь в опасности, получаете отпор или расплачиваетесь как-то ещё.",
+												},
+												{
+													title: "На 6-",
+													links: [
+														"fails|worst"
+													] 
+												}
+											]
+										}
 									}
-								]
+								}
 							},
 						]
-					},
+					
 				},
 			]
 		},
@@ -1000,8 +1094,7 @@
 				},
 			]
 		},
-		
-		
+				
 		{
 			title: "Фабрика монстров",
 			key: "frankenstein",
@@ -1078,8 +1171,8 @@
 					data: {
 						pre: "Бросайте кубика урона монстра, добавьте +d4 к броску, если монстр <i>властвует</i> над другими или <i>древний</i>. Если монстр <i>запасливый</i>, бросьте кубик дважды, возьмите лучший результат.",
 						list: {
-							bShuffle: false,
-							meta: {
+							meta: {								
+								bShuffle: false,
 								options: [
 									{
 										title: "Властвует/древний",
@@ -1124,15 +1217,56 @@
 			]
 		},
 		
+		{
+			title: "Завязки",
+			key: "starts",
+			color: "",
+			ico: "",
+
+			sub: [			
+				{
+					title: "Предыстории",
+					key: "background",
+					color: "",
+					ico: "",
+					data: {
+						list: {
+							data: [
+								"Рейнджер| Моя зверушка разрушила родную деревню и я с ней ушел."
+							]
+						}
+					},
+				},
+				{
+					title: "Начало приключений",
+					key: "лшслыефке",
+					color: "",
+					ico: "",
+					data: {
+						pre: "Как вы в это вляпались? Что будете делать?",
+						list: {
+							data: [
+								"Вы стоите перед дымящимися развалинами таверны, где должны были встретиься с таинственным заказчком / другом",
+								"Вы приходите в себя на небольшом пустынном островке с парой вальм. У вас есть бутылка рома, пистолет с одной пулей и мануал по вязанию веревок.",
+								"Вы приходите в себя связанные в подвале. к вам с интересом принюхивается небольшая, но голодная стая крыс",
+								"Героев кидают в подземелье с криком: \"Кто из вас, поганцев, первый выйдет из подземелья, тот и не виновен!\". Герои приземляются в узкой комнате, заполненной шипящими змеями. Из комнаты один очень узкий выход. В углах длинная палка, камень, жменька гречки и веревка.",
+								"Вы стоите на эшафоте, ваше последнее слово.",
+								"Вы стоите у лагеря, едва схватив оружие, в вас с обрыва целятся орки"
+							]
+						},
+						
+					},
+				},
+			]
+		},
+		
 	]
 		
 	function randd(min, max) {
 		return Math.floor(arguments.length > 1 ? (max - min + 1) * Math.random() + min : (min + 1) * Math.random());
 	};
-	function shuffle(o, bRand){
-		if(bRand){
-			for(var j, x, k = o.length; k; j = Math.floor(Math.random() * k), x = o[--k], o[k] = o[j], o[j] = x);
-		}
+	function shuffle(o){		
+		for(var j, x, k = o.length; k; j = Math.floor(Math.random() * k), x = o[--k], o[k] = o[j], o[j] = x);		
 		return o;
 	};
 
@@ -1164,7 +1298,7 @@
 	}
 
 
-	function _setMoveLinks: function(){
+	function _setMoveLinks(){
 		data.forEach(function(oEl){
 			if(oEl.data && oEl.data.moves) {
 				oEl.data.moves.forEach(function(oMove){
@@ -1178,6 +1312,16 @@
 							_translateMove(oMove);						
 						})
 					} 
+					if(oSub.sub) {
+						oSub.sub.forEach(function(oSub){
+							if(oSub.data && oSub.data.move && oSub.data.move.data) {
+								_translateMove(oSub.data.move.data);
+								// oSub.data.move.forEach(function(oMove){
+									// _translateMove(oMove);						
+								// })
+							} 
+						});
+					}
 				});
 			}
 		});
@@ -1187,8 +1331,12 @@
 		oMove.results = oMove.results.map(res=>{
 			if(res.links && res.links.length>0) {
 				res.links = res.links.map(link=>{
-					let sLinktitle = this._getLinkTitle(link);
-					return `<a href="#${link}" class='move_link'>${sLinktitle}</a>`
+					let sLinktitle = _getLinkTitle(link);
+					//return `<a href="#${link}" class='move_link'>${sLinktitle}</a>`;
+					return {
+						href: "#"+link,
+						title: sLinktitle
+					}
 				}) || [];
 			}
 			
@@ -1197,49 +1345,121 @@
 		return oMove;
 	}
 	
-	function: _getLinkTitle(sPath){
-			let sRet = sPath;
-			let aPath = sPath.split("|");
-			let sTitle = "";
-			switch(aPath.length) {
-				case 3: 
-					let aSections = data.filter(el=>el.sub && el.sub.length>0);
-					for (let i=0; i<aSections.length; i++ && !sTitle) {
-						if(aSections[i].sub) {
-							let aSec = aSections[i].sub;
-							for(let j=0; j<aSec.length; j++) {
-								if(aSections[i].sub[j].sub) {
-									let oSub = aSections[i].sub[j].sub.find(el=>el.key == aPath[2]);
-									if(oSub) {
-										sTitle = oSub.title;
-										break
-									}
+	function _getLinkTitle(sPath){
+		let sRet = sPath;
+		let aPath = sPath.split("|");
+		let sTitle = "";
+		switch(aPath.length) {
+			case 3: 
+				let aSections = data.filter(el=>el.sub && el.sub.length>0);
+				for (let i=0; i<aSections.length; i++ && !sTitle) {
+					if(aSections[i].sub) {
+						let aSec = aSections[i].sub;
+						for(let j=0; j<aSec.length; j++) {
+							if(aSections[i].sub[j].sub) {
+								let oSub = aSections[i].sub[j].sub.find(el=>el.key == aPath[2]);
+								if(oSub) {
+									sTitle = oSub.title;
+									break
 								}
 							}
 						}
 					}
-					break;
-				case 2: 
-					let aSections2 = data.filter(el=>el.sub && el.sub.length>0);
-					for (let i=0; i<aSections2.length; i++) {
-						if(aSections2[i].sub) {
-							let oSub2 = aSections2[i].sub.find(el=>el.key == aPath[1]);
-							if(oSub2) {
-								sTitle = oSub2.title;
-							}
+				}
+				break;
+			case 2: 
+				let aSections2 = data.filter(el=>el.sub && el.sub.length>0);
+				for (let i=0; i<aSections2.length; i++) {
+					if(aSections2[i].sub) {
+						let oSub2 = aSections2[i].sub.find(el=>el.key == aPath[1]);
+						if(oSub2) {
+							sTitle = oSub2.title;
 						}
 					}
-					break;;
-				case 1: break;
+				}
+				break;;
+			case 1: break;
+		}
+		
+		return sTitle || sRet;
+	}
+	
+	function _getSubs(oRoot) {
+		let aSections = [];
+
+		if(oRoot && oRoot.sub) {
+			oRoot.sub.forEach(function(oSection){
+				let oSubNode = {};
+				oSubNode.key = oSection.key;
+				oSubNode.title = oSection.title;
+				
+				aSections.push(oSubNode);
+			}); 
+		}
+		 
+		return aSections;
+	}
+	function _getSectionsList(sRoot){
+		let oRoot = data.find(el=>el.key == sRoot);
+		return _getSubs(oRoot);
+	}
+	function _getSubsectionsList(sRoot, sSection){
+		let oRoot = data.find(el=>el.key == sRoot);
+		if(oRoot.sub) {
+			let oSection = oRoot.sub.find(el=>el.key == sSection)
+			return _getSubs(oSection);
+		}
+	}
+	function _getStructure(sRoot, sSub){
+		if(sRoot) {
+			if(sSub) {
+				return _getSubsectionsList(sRoot, sSub);
+			} 
+			return _getSectionsList(sRoot);
+		}
+		
+		let aStructure = [];
+		
+		data.forEach(function(oRoot){
+			let oNode = {};
+			oNode.key = oRoot.key;
+			oNode.title = oRoot.title;
+			if(oRoot.sub) {
+				oRoot.sub.forEach(function(oSection){
+					let oSubNode = {};
+					oSubNode.key = oSection.key;
+					oSubNode.title = oSection.title;
+					
+					if(oSection.sub) {
+						oSection.sub.forEach(function(oSubsection){
+							let oSubSubNode = {};
+							oSubSubNode.key = oSubsection.key;
+							oSubSubNode.title = oSubsection.title;
+							
+							if(!oSubNode.sub) {
+								oSubNode.sub = [];
+							}
+							oSubNode.sub.push(oSubSubNode);
+						}); 
+					}
+					
+					if(!oNode.sub) {
+						oNode.sub = [];
+					}
+					oNode.sub.push(oSubNode);
+				}); 
 			}
 			
-			return sTitle || sRet;
-		},
+			aStructure.push(oNode);
+		});
 		
+		return aStructure;
+	}
+	
 	function _getByPath(sRoot, sSection, sSubsection){
+		let oContent;
 		if(sRoot) {
 			let oRoot = data.find(el=>el.key==sRoot);
-			let oContent;
 			if(oRoot){
 				if(sSection && oRoot.sub) {
 					let oSection = oRoot.sub.find(el=>el.key==sSection);
@@ -1247,6 +1467,13 @@
 						let oSubsection = oSection.sub.find(el=>el.key==sSubsection);
 						if(oSubsection) {
 							oContent = oSubsection
+						} else {
+							oContent = {};
+						}
+					} else if(sSubsection && oSection.data && oSection.data.moves){
+						let oMove = oSection.data.moves.find(el=>el.key==sSubsection);
+						if(oMove) {
+							oContent = oMove
 						} else {
 							oContent = {};
 						}
@@ -1259,32 +1486,122 @@
 			}
 			
 			if(oContent && oContent.data) {
+				let o = {};
 				// list of smth
 				if(oContent.data.list) {
+					o.type = 'list';
+					//o.list = oContent.data.list;
+				
+					//random
+					let bRand = (oContent.data.list.meta && oContent.data.list.meta.bShuffle) !== false;
 					
+					o.list = oContent.data.list;
+					if(bRand) {
+						o.list.data = shuffle(oContent.data.list.data, bRand);
+					}
+				
 				}
 				// move
-				if(oContent.data.moves) {
-					
+				if(oContent.data.move) {
+					o.type = 'move';
+					o.move = oContent.data.move;
+					o.move.data.title = oContent.title;					
 				}
+				
+				if(oContent.data.pre) {
+					o.pre = oContent.data.pre;
+				}
+				
+				return o;
 			}
 		}
 	}
+	function _getList(sPath, {bShuffle=true}){
+		aPath = sPath.split("/");
+		let sRoot = aPath[0], sSection = aPath[1], sSubsection = aPath[2];
+		let oData = _getByPath(sRoot, sSection, sSubsection);
+		if(oData.type == 'list') {
+			return bShuffle? shuffle(oData.list.data): oData.list.data;
+		}
+		return null;
+	}
+	function _getResult (sPath, {options}){
+		aPath = sPath.split("/");
+		let sRoot = aPath[0], sSection = aPath[1], sSubsection = aPath[2];
+		let oData = _getByPath(sRoot, sSection, sSubsection);
+		if(!oData) {
+			return [];
+		}
+		switch(oData.type) {
+			case 'list': 
+				let aList = _getListResult(oData.list, {options});
+				
+				return aList;
+				break;
+			case 'move': 
+				return oData.move.data;
+				break;
+		}
+		
+	}
+	function _getListResult(oList, {options}){
+		let nStart = 0;
+		let aResult = [];
+		let nCount = 1;
+		let oMeta = oList.meta;
+		if(oMeta && oMeta.options && options && options.length>0) {
+			let aSelected = oMeta.options.filter(el=>options.includes(el.key));
+			if(aSelected && aSelected.length>0) {			
+				let oOffset = oMeta.options.find(el=>el.key == 'offset_start' && el.checked);	
+				let oNumber = oMeta.options.find(el=>el.key == 'count' && el.checked);			
+				if(oOffset) {
+					nStart = parseDie(oOffset.value);
+				}
+				if(oNumber) {
+					nCount = oNumber.value;
+				}
+			}
+		}
+		
+		for (let i=0; i<nCount; i++) {
+			let nRand = randd(nStart, oList.data.length-1);
+			aResult.push(oList.data[nRand])
+		}
+		return aResult;
+	}
 
+
+	function _getRandomMonster({options}) {
+		let aProps = _getResult("frankenstein/props", {options: options});
+		let aTreassure = _getResult("frankenstein/trerasure", {options: options});
+		let aTactics = _getResult("frankenstein/tactics", {options: options});
+		
+		return {
+			props: aProps,
+			treassure: aTreassure,
+			tactics: aTactics
+		};
+	}
   // This function will contain all our code
-  function returnLibrary(){
-    var _Lib = {};
-		
-		// prepare
+
+	function _init(){
 		_setMoveLinks();
+	}
+	function returnLibrary(){
+    var _Lib = {};
+		_init();
 		
+		_Lib.data = data;
+		_Lib.randd = randd;
+		_Lib.shuffle = shuffle;
+		_Lib.parseDie = parseDie;
 		
-		_lib.data = data;
-		_lib.randd = randd;
-		_lib.shuffle = shuffle;
-		_lib.parseDie = parseDie;
+		_Lib.getStructure = _getStructure;
+		_Lib.getByPath = _getByPath;
+		_Lib.getList = _getList;
+		_Lib.getResult = _getResult;
 		
-		_lib.getByPath = _getByPath;
+		_Lib.getRandomMonster = _getRandomMonster;
 
     return _Lib;
   }
@@ -1294,4 +1611,3 @@
     window.lib_DW = returnLibrary();
   }
 })(window); // We send the window variable withing our function
-

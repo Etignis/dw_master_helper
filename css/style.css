@@ -37,6 +37,14 @@
 [v-cloak] {
   display: none;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -440,6 +448,24 @@ li.no_offset {
   margin-top: 4rem;
   border-top: 1px solid gray;
 }
+.move_fails {
+  margin: 3rem 0 1rem;
+  display: block;
+}
+.move_fails li {
+  display: block;
+  margin: 1rem 0;
+}
+.move_fails li:last-child {
+  opacity: 0.7;
+}
+.move_fails li:first-child {
+  background: #31835b;
+  color: white;
+  padding: .8rem;
+  border-radius: .4rem;
+  opacity: 1;
+}
 .info {
   border: 2px solid #31835b;
   padding: 1rem;
@@ -506,5 +532,236 @@ li.no_offset {
 @media screen and (min-width: 65em) {
   #contain {
     box-shadow: 0 0 20px 10px #333;
+  }
+}
+.floater {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  width: 7rem;
+  height: 11.9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.floater button {
+  z-index: 999;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: white;
+  background: rgba(49, 131, 91, 0.9);
+  outline: none;
+  box-shadow: 0 3px 6px 0px #000000ab;
+  display: flex;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.floater button.timer_settings {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+.floater button.timer_settings .ico {
+  font-size: 170%;
+}
+.floater button.play {
+  width: 7rem;
+  height: 7rem;
+  z-index: 2222;
+}
+.floater button.play .ico {
+  font-size: 300%;
+}
+.floater button.timer::after,
+.floater button.timer::before {
+  content: "";
+  display: block;
+  width: 5.5rem;
+  height: 5.5rem;
+  top: -0.1rem;
+  position: absolute;
+  border-radius: 50%;
+  border: 0.5rem solid #315d83;
+}
+.floater button.timer::before {
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  transform: rotate(-45deg);
+  top: 0.1rem;
+}
+.floater button.timer::after {
+  width: 5rem;
+  height: 5rem;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  transform: rotate(135deg);
+  border-width: 1rem;
+  top: -0.1rem;
+}
+.floater button:hover {
+  background: #31835b;
+  box-shadow: 0 6px 9px 0px #000000ab;
+  transform: scale(1.1);
+}
+.floater button:active {
+  transform: scale(1);
+}
+.floater button.timer::after {
+  animation: timer_after 60s ease-in infinite;
+}
+.floater button.timer::before {
+  animation: timer_before 60s ease-out infinite;
+}
+.floater .timer_settings_container {
+  position: relative;
+}
+.floater .opt_container {
+  position: absolute;
+  bottom: 4rem;
+  right: .5rem;
+  max-height: 80vh;
+  z-index: 999;
+}
+.floater .opt_container:after {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  right: 0;
+  display: block;
+  width: 0;
+  box-shadow: -5px 0 120px 110px #3b3b3b;
+  z-index: -1;
+}
+.floater .opt_container ul,
+.floater .opt_container li {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+.floater .opt_container .option {
+  background: #31835b;
+  border-radius: 1rem;
+  color: white;
+  margin: .8rem 0;
+  padding: .3rem;
+  cursor: pointer;
+  position: relative;
+  opacity: .8;
+  transition: opacity 0.2s, backgrouhd 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 3px 6px 0px #000000ab;
+}
+.floater .opt_container .option:before {
+  content: "";
+  display: inline-block;
+  margin-right: .2rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 3px solid white;
+  background: #ffffffbb;
+  box-shadow: 0 0 0px 6px #31835b;
+  position: absolute;
+  left: -2rem;
+  top: .6rem;
+}
+.floater .opt_container .option.active:before {
+  background: #31835b;
+}
+.floater .opt_container .option:hover {
+  opacity: 1;
+  transform: scale(1.06);
+  box-shadow: 0 6px 9px 0px #000000ab;
+}
+.floater .opt_container .option:active {
+  transform: scale(1);
+}
+.floater .prompt_container {
+  position: fixed;
+  display: flex;
+  background: #31835b;
+  border-radius: 2rem;
+  color: white;
+  margin: .8rem 0;
+  padding: .3rem;
+  right: 10rem;
+  bottom: 1rem;
+  z-index: 1111;
+  max-width: 90vw;
+  max-height: 60vh;
+  box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.9), 0px 70px 120px 110px #3b3b3b;
+}
+.floater .prompt_container:after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 3333;
+  width: 100%;
+  bottom: 0;
+  box-shadow: 0 0 10px 2px #31835b;
+}
+.floater .prompt_container .text {
+  margin: 1rem;
+  margin-right: .3rem;
+  overflow: auto;
+}
+.floater .prompt_container .text::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+.floater .prompt_container .text::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.8);
+}
+.floater .prompt_container .text::-webkit-scrollbar-track {
+  background: transparent;
+}
+.floater .prompt_container .text body {
+  scrollbar-face-color: rgba(255, 255, 255, 0.8);
+  scrollbar-track-color: transparent;
+}
+.floater .prompt_container button {
+  background: rgba(255, 255, 255, 0.8);
+  color: #31835b;
+  display: block;
+  width: 4rem;
+  height: 4rem;
+}
+.floater .prompt_container button .ico {
+  font-size: 200%;
+  font-weight: bold;
+}
+@keyframes timer_before {
+  0% {
+    transform: rotate(-45deg);
+    border-top-color: white;
+    border-left-color: transparent;
+  }
+  100% {
+    transform: rotate(315deg);
+    border-top-color: white;
+    border-left-color: transparent;
+  }
+}
+@keyframes timer_after {
+  0% {
+    transform: rotate(-45deg);
+    border-top-color: #31835b;
+    border-left-color: #31835b;
+  }
+  33% {
+    transform: rotate(-45deg);
+    border-top-color: #31835b;
+    border-left-color: #31835b;
+  }
+  100% {
+    transform: rotate(310deg);
+    border-top-color: #31835b;
+    border-left-color: #31835b;
   }
 }

@@ -90,6 +90,24 @@ Vue.component('item', {
 </li>`
 });
 
+Vue.component("move_link", {
+	props: {
+		
+	},
+	
+	data: function(){
+		return {}
+	},
+	methods: {
+		
+	},
+	
+	computed: {
+		
+	},
+	
+	template: ``
+});
 
 Vue.component('move', {
 	props: {		
@@ -123,7 +141,10 @@ Vue.component('move', {
 		return {};
 	},
 	methods: {
-				
+		show_fail: function(oEvent){
+	
+			this.$emit('fail', oEvent);
+		}		
 	},
 	computed: {
 		isVariants: function(){
@@ -133,9 +154,10 @@ Vue.component('move', {
 		_results: function(){
 			if(this.results && this.results.length>0) {
 				return this.results.map(el=>{
-					let sLinks = el.links?el.links.join(" "):"";
+					//let sLinks = el.links?el.links.join(" "):"";
+					//debugger;
 					let oInnerList = el.list? el.list.data.map(el=>el.title) : [];
-					return {text: `${el.title} ${sLinks}`, list: oInnerList}//`${el.title} ${sLinks}`
+					return {text: el.title, links: el.links , list: oInnerList}//`${el.title} ${sLinks}`
 				})
 			}
 			return [];
@@ -158,9 +180,16 @@ Vue.component('move', {
 		<div class='condition' v-html="_condition"></div>
 		<ul>
 			<li v-for="item in _results">
-				<span v-html="item.text"></span>
+				<span v-html="item.text" data-text="1"></span>
 				<ul>
-					<li v-for="el in item.list" v-html="el">
+					<li v-for="el in item.list" >
+						<span v-html="el" data-list="2"></span>
+					</li>
+				</ul>
+				
+				<ul class='fail_links'>
+					<li v-for="el in item.links" >
+						<a :href="el.href" class='move_link' @click.stop.prevent="show_fail(el)">{{el.title}}</a>
 					</li>
 				</ul>
 			</li>
@@ -229,15 +258,35 @@ Vue.component('chooser', {
 var app = new Vue({
 	el: '#app',
 	data: {
-		data: data,
+		data: {},
+		menu: {},
 		
+		structure: {},
+		section: [],
+		subsection: [],
 		checked: {
 			main: "",
 			section: "",
 			subsection: ""
 		},
+		
+		list_data: {},
+		random_list: [],
+		options: [],
 		enlarge_menu: false,
 		smth: 1,
+		
+		move_fails: [],
+		
+		dm_helper: {
+			active: false,
+			show_sources: false,
+			sources: [],
+			show_prompt: false,
+			prompt: "",
+			timer: null 
+		},
+		
 		
 		oConfig: {},
 		bAppIsReady: false,
@@ -246,28 +295,7 @@ var app = new Vue({
 		sModalWinCont: ""
 	},
 
-	computed: {
-		section: function() {
-			let aList = [];
-			let sKey = this.checked.main;
-			if(!sKey) {
-				return aList;
-			}
-			let aFiltered = this.data.find(el=>el.key==sKey);
-			aList = aFiltered.sub || aFiltered.data && aFiltered.data.moves || [];
-			return aList;
-		},
-		subsection: function() {
-			let aList = [];
-			let sKey = this.checked.section;
-			if(!sKey || !this.section || !this.section.length) {
-				return aList;
-			}
-			let aFiltered = this.section.find(el=>el.key==sKey);
-			let bMove = !!aFiltered.condition;
-			aList = bMove? [] : aFiltered.sub || aFiltered.data && aFiltered.data.moves || [];
-			return aList;
-		},
+	computed: {		
 		
 		displayData: function(){
 			let oContent = {};
@@ -276,32 +304,25 @@ var app = new Vue({
 			let o = {list: [], pre: ""};
 			
 			let sKey = this.checked.subsection;
-			if(sKey && this.subsection && this.subsection.length>0) {
-				oContent = this.subsection.find(el=>el.key==sKey);
-			} else {
-				sKey = this.checked.section;
-				if(sKey && this.section && this.section.length>0) {
-					oContent = this.section.find(el=>el.key==sKey);			
-				} else {
-					sKey = this.checked.main;
-					oContent = this.data.find(el=>el.key==sKey);						
-				}				
-			}			
-			
+			oContent = this.list_data; //lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			this.options = [];
+
 			let bRand = true;
-			if(oContent && oContent.data && oContent.data.list && oContent.data.list.data){
-				bRand = oContent.data.list.bShuffle!==false;
-				aList = oContent.data.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
-				o.list = shuffle(aList, bRand, this.smth);
+			if(oContent && oContent.type=='list' /* && oContent.data && oContent.data.list && oContent.data.list.data*/){
+				bRand = (oContent.list && oContent.list.meta && oContent.list.meta.bShuffle) !==false;
+				aList = oContent.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
+				o.list = aList;
 			}
-			if(oContent && oContent.data && oContent.data.pre){
-				sPre = oContent.data.pre;
+			if(oContent && oContent.pre){
+				sPre = oContent.pre;
 				o.pre = sPre;
 			}
-			if(oContent && oContent.data && oContent.data.list && oContent.data.list.meta && oContent.data.list.meta.options){
-				let aOpts = aOptions = oContent.data.list.meta.options;
+			if(oContent && oContent.list && oContent.list.meta && oContent.list.meta.options){
+				let aOpts = aOptions = oContent.list.meta.options;
 				o.options = aOpts;
+				this.options = aOpts;
 			}
+			
 			return o
 		},
 		
@@ -313,47 +334,27 @@ var app = new Vue({
 			if(!this.displayData.list.length) {
 				return "";
 			}
-			let nStart = 0;
-			let aResult = [];
-			let nCount = 1;
-			if(this.displayData.options) {
-				let aSelected = this.displayData.options.filter(el=>el.checked);
-				if(aSelected && aSelected.length>0) {			
-					let oOffset = this.displayData.options.find(el=>el.key == 'offset_start' && el.checked);	
-					let oNumber = this.displayData.options.find(el=>el.key == 'count' && el.checked);			
-					if(oOffset) {
-						debugger;
-						nStart = parseDie(oOffset.value);
-					}
-					if(oNumber) {
-						nCount = oNumber.value;
-					}
-				}
-			}
 			
-			for (let i=0; i<nCount; i++) {
-				let nRand = randd(nStart, this.displayData.list.length-1);
-				aResult.push(this.displayData.list[nRand].title)
-			}
-			return aResult.join("<hr>");
+			return this.random_list.map(el=> { let aParts = el.split("|"); return aParts.length>1?`<b>${aParts[0]}</b><br> ${aParts[1]}`:el}).join("<hr>");
 		},
 		
-		 displayMove: function(){
-			let aList = [];
-			sKey = this.checked.subsection;
-			if(sKey && this.subsection && this.subsection.length>0) {
-				aList = this.subsection.find(el=>el.key==sKey);			
-			} else {
-				sKey = this.checked.section;
-				if (sKey && this.section && this.section.length>0) {
-					aList = this.section.find(el=>el.key==sKey);
-				}
+		displayMove: function(){
+			let oData = [];
+			let sKey = this.checked.subsection;
+			oContent = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			// if(sKey && this.subsection && this.subsection.length>0) {
+				// aList = this.subsection.find(el=>el.key==sKey);			
+			// } else {
+				// sKey = this.checked.section;
+				// if (sKey && this.section && this.section.length>0) {
+					// aList = this.section.find(el=>el.key==sKey);
+				// }
+			// }
+			if(oContent && oContent.type=='move'){
+				oData = oContent.move.data;
+				return oData;
 			}
-			
-			if(aList){
-				let bMove = !!aList.condition;
-				return bMove? aList : {};
-			}		
+	
 			
 			return {};
 		},
@@ -380,9 +381,13 @@ var app = new Vue({
 		
 		// this.$refs.PactTypeCombobox.toggle(null, this.bPactTypesOpend);
 		// this.$refs.SourceCombobox.toggle(null, this.bSourcesOpend);
+		this.structure = lib_DW.getStructure();
+		
+		this.dm_helper.sources = this.structure[0].sub;
+		this.dm_helper.sources.forEach(el=>{el.active = el.key=='common'});
 		
 		// this.updateHash();
-		this._setMoveLinks();
+		//this._setMoveLinks();
 		this.getHash();
 		
 		let oLoader = document.querySelector("#loader_overflow");
@@ -394,81 +399,21 @@ var app = new Vue({
 		this.bAppIsReady = true;		
 		
 		window.addEventListener('hashchange',()=>{this.getHash();})
+		
+		this._random();
 	},
 	methods: {
 		_random: function(){
-			this.smth = -this.smth;
-		},
-		_setMoveLinks: function(){
-			that = this;
-			this.data.forEach(function(oEl){
-				if(oEl.data && oEl.data.moves) {
-					oEl.data.moves.forEach(function(oMove){
-						that._translateMove(oMove);						
-					})
-				} 
-				if(oEl.sub && oEl.sub.length>0){
-					oEl.sub.forEach(function(oSub){
-						if(oSub.data && oSub.data.moves) {
-							oSub.data.moves.forEach(function(oMove){
-								that._translateMove(oMove);						
-							})
-						} 
-					});
+			this.random_list = lib_DW.getResult(
+				`${this.checked.main}/${this.checked.section}/${this.checked.subsection}`, 
+				{
+					options: this.options
+										.filter(el => el.checked)
+										.map(el=>el.key)
 				}
-			});
-		},
-		_translateMove: function(oMove){
-			//let oLinkedMove = Object.assign(oMove);
-			oMove.results = oMove.results.map(res=>{
-				if(res.links && res.links.length>0) {
-					res.links = res.links.map(link=>{
-						let sLinktitle = this._getLinkTitle(link);
-						return `<a href="#${link}" class='move_link'>${sLinktitle}</a>`
-					}) || [];
-				}
-				
-				return res;
-			})
-			return oMove;
-		},
-		_getLinkTitle: function(sPath){
-			let sRet = sPath;
-			let aPath = sPath.split("|");
-			let sTitle = "";
-			switch(aPath.length) {
-				case 3: 
-					let aSections = data.filter(el=>el.sub && el.sub.length>0);
-					for (let i=0; i<aSections.length; i++ && !sTitle) {
-						if(aSections[i].sub) {
-							let aSec = aSections[i].sub;
-							for(let j=0; j<aSec.length; j++) {
-								if(aSections[i].sub[j].sub) {
-									let oSub = aSections[i].sub[j].sub.find(el=>el.key == aPath[2]);
-									if(oSub) {
-										sTitle = oSub.title;
-										break
-									}
-								}
-							}
-						}
-					}
-					break;
-				case 2: 
-					let aSections2 = data.filter(el=>el.sub && el.sub.length>0);
-					for (let i=0; i<aSections2.length; i++) {
-						if(aSections2[i].sub) {
-							let oSub2 = aSections2[i].sub.find(el=>el.key == aPath[1]);
-							if(oSub2) {
-								sTitle = oSub2.title;
-							}
-						}
-					}
-					break;;
-				case 1: break;
-			}
+			);
 			
-			return sTitle || sRet;
+			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 		},
 		menu_priority: function(bMax){
 			this.enlarge_menu = !!bMax;
@@ -477,40 +422,105 @@ var app = new Vue({
 			this.checked.main = `${name}`;
 			this.checked.section = "";
 			this.checked.subsection = "";
+			this.section = lib_DW.getStructure(this.checked.main);
+			this.subsection = [];
+			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
+			
+			this.move_fails = [];
+			this._random();
 		},
 		sectionClick: function({src, name}){
 			this.checked.section = `${name}`;
 			this.checked.subsection = "";
+			this.subsection = lib_DW.getStructure(this.checked.main, this.checked.section);
+			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
+			
+			this.move_fails = [];
+			this._random();
 		},
 		subsectionClick: function({src, name}){
 			this.checked.subsection = `${name}`;
+			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
+			
+			this.move_fails = [];
+			this._random();
 		},
 		
 		//moves
 		
 		onChoose: function({key, value, checked}){
-
-			let oContent = {};
-			
-			let sKey = this.checked.subsection;
-			if(sKey && this.subsection && this.subsection.length>0) {
-				oContent = this.subsection.find(el=>el.key==sKey);
-			} else {
-				sKey = this.checked.section;
-				if(sKey && this.section && this.section.length>0) {
-					oContent = this.section.find(el=>el.key==sKey);			
-				} else {
-					sKey = this.checked.main;
-					oContent = this.data.find(el=>el.key==sKey);						
-				}				
-			}		
-			
-			let oOption = oContent.data.list.meta.options.find(el=>el.key==key);
+			let oContent = {};			
+			let sKey = this.checked.subsection || this.checked.section || this.checked.main;			
+			let oOption = this.options.find(el=>el.key==key);
 			oOption.checked = checked;
-
+			
+			this._random();
+		},
+		
+		show_move_fail: function (oLink){
+			let aParts = oLink.href.replace("#", "").split("|");
+			let sResult = lib_DW.getResult(`${aParts[0]}/${aParts[1]}/${aParts[2]}`, {});
+			if(this.move_fails.length > 4) {
+				this.move_fails.pop();
+			}
+			this.move_fails.unshift(sResult[0]);
+		},
+		
+		// helper
+		_restart_prompt_animation: function(){
+			this.dm_helper.active = false;
+			setTimeout(function(){this.dm_helper.active = true;}.bind(this), 10);
+		},
+		get_prompt: function(){
+			let aSelected = this.dm_helper.sources.filter(el=>el.active).map(el=>el.key);
+			if(aSelected.length>0){
+				this._restart_prompt_animation();
+				let sStart = "master_moves";
+				let sKey = shuffle(aSelected, true)[0];
+				//this.list_data = lib_DW.getByPath(sStart, sKey);
+				console.log(sStart, sKey);
+				let aResult = lib_DW.getResult(`${sStart}/${sKey}`, {});
+				let aParts = aResult[0].split("|");
+				return aParts.length>1? `<b>${aParts[0]}</b><br>${aParts[1]}` : aParts[0];
+			}
+		},
+		switch_prompt: function(bShow){
+			this.dm_helper.show_prompt = bShow;
+			if(bShow) {
+				this.dm_helper.prompt = this.get_prompt();//"ewr wer wwerwer wer wer ";				
+			}
+		},
+		switch_helper: function(){			
+			this.dm_helper.active = !this.dm_helper.active;
+			
+			this.switch_prompt(this.dm_helper.active);
+			
+			if(this.dm_helper.active) {
+				this.dm_helper.timer = setInterval(function(){
+					this.switch_prompt(this.dm_helper.active);
+				}.bind(this), 1000*60);				
+			} else {
+				clearInterval(this.dm_helper.timer);
+			}
+			
+			this.dm_helper.show_sources = false;
+		},
+		onPressHelperSrc: function(oOpt){
+			//debugger;
+			let aOptions = [];
+			this.dm_helper.sources.forEach(el=>{
+				aOptions.push(el);
+				if(el.key == oOpt.key) {
+					el.active = !el.active;
+				}
+			});
+			this.dm_helper.sources = aOptions;
+		},
+		next_prompt: function(){
+			this.dm_helper.prompt = this.get_prompt();
 		},
 		
 		updateHash: function() {
@@ -543,13 +553,17 @@ var app = new Vue({
 			let aHash = sHash.split("|");
 			if(aHash[0]) {
 				this.checked.main = aHash[0];
+				this.section = lib_DW.getStructure(this.checked.main);
 			}
 			if(aHash[1]) {
 				this.checked.section = aHash[1];
+				this.subsection = lib_DW.getStructure(this.checked.main, this.checked.section);
 			}
 			if(aHash[2]) {
 				this.checked.subsection = aHash[2];
 			}
+			
+			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			
 		}
 	}
