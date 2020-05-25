@@ -206,6 +206,77 @@ Vue.component('move', {
 </article>`
 });
 
+Vue.component('card', {
+	props: {		
+		title: {
+			type: String,
+			default: ""
+		},	
+		tags: {
+			type: Array,
+			default: function(){return []}
+		},	
+		cost: {
+			type: String,
+			default: ""
+		},
+		weight: {
+			type: String,
+			default: ""
+		},
+		hold: {
+			type: String,
+			default: ""
+		},
+		description: {
+			type: String,
+			default: ""
+		}
+		
+	},
+	data: function(){
+		return {};
+	},
+	methods: {
+		show_fail: function(oEvent){
+	
+			this.$emit('fail', oEvent);
+		}		
+	},
+	computed: {
+		_tags: function(){
+			return this.tags.map(el=>`<span class='tag'>${el[0].toUpperCase() + el.slice(1)}</span>`).join(", ");
+		},
+		_description: function(){
+			return this.description.split("|").map(el => `<p>${el}</p>`).join("\r\n");
+		}
+	},
+	created: function(){
+		
+	},
+	template: `<article class='card'>
+		<h1 class='title'>{{title}}</h1>
+		<div class='row tag_row' v-if="tags.length > 0">
+			<div v-html="_tags"></div>
+		</div>
+		<div class="row" v-if="String(cost).length > 0">
+			<div>Цена:</div>
+			<div>{{cost}} монет</div>
+		</div>
+		<div class="row" v-if="String(weight).length > 0">
+			<div>Вес:</div>
+			<div>{{weight}}</div>
+		</div>
+		<div class="row" v-if="String(hold).length > 0">
+			<div>Запас:</div>
+			<div>{{hold}}</div>
+		</div>
+		<div v-if="String(description).length > 0">
+			<div class='description' v-html="_description"></div>
+		</div>
+</article>`
+});
+
 Vue.component('chooser', {
 	props: {		
 		title: {
@@ -254,6 +325,57 @@ Vue.component('chooser', {
 	</li>`
 });
 
+Vue.component('lister', {
+	props: {		
+		title: {
+			type: String,
+			default: ""
+		},		
+		subtitle: {
+			type: String,
+			default: ""
+		},	
+		content: {
+			
+		},
+		
+	},
+	data: function(){
+		return {};
+	},
+	methods: {
+		
+	},
+	computed: {
+		_title: function(){
+			if(Array.isArray(this.content)) {
+				return this.content[0];
+			} else if(typeof this.content == 'object') {
+				return this.content.title || "";
+			} else{
+				return this.content;
+			}
+			
+		},
+		_subtitle: function(){
+			if(Array.isArray(this.content)) {
+				return this.content[1];
+			} else if(typeof this.content == 'object') {
+				return this.content.subtitle || "";
+			} 
+			return ""
+		},
+		
+	},
+	created: function(){
+		
+	},
+	template: `<li class='no_offset lister item'>
+		<div v-html="title"></div>
+		<div v-html="subtitle" v-if="subtitle.length > 0" style="font-style: italic"></div>
+	</li>`
+});
+
 	
 var app = new Vue({
 	el: '#app',
@@ -270,6 +392,7 @@ var app = new Vue({
 			subsection: ""
 		},
 		
+		libPathValue: {},
 		list_data: {},
 		random_list: [],
 		options: [],
@@ -296,7 +419,9 @@ var app = new Vue({
 	},
 
 	computed: {		
-		
+		_libContent: function(){
+			
+		},
 		displayData: function(){
 			let oContent = {};
 			let sPre = "";
@@ -304,15 +429,27 @@ var app = new Vue({
 			let o = {list: [], pre: ""};
 			
 			let sKey = this.checked.subsection;
-			oContent = this.list_data; //lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			//oContent = this.list_data; //lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			oContent = this.libPathValue; //lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.options = [];
 
 			let bRand = true;
 			if(oContent && oContent.type=='list' /* && oContent.data && oContent.data.list && oContent.data.list.data*/){
 				bRand = (oContent.list && oContent.list.meta && oContent.list.meta.bShuffle) !==false;
-				aList = oContent.list.data.map((el, i)=>({key:i, title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el}));
+				aList = oContent.list.data.map((el, i)=>{
+					if(typeof el == 'string'){
+						return {
+							key:i, 
+							title: el.includes("|")?`<b>${el.split("|")[0].trim()}</b> ${el.split("|")[1].trim()}`: el
+						}
+					} else {
+						return el
+					}
+				});
+					
 				o.list = aList;
 			}
+						
 			if(oContent && oContent.pre){
 				sPre = oContent.pre;
 				o.pre = sPre;
@@ -326,30 +463,47 @@ var app = new Vue({
 			return o
 		},
 		
+		displayItem: function(){
+			let oData ={};
+			//et oContent = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			let oContent = this.libPathValue;
+			if(oContent && oContent.type=='item' ){
+				oData = oContent.item.data;
+				return oData;
+			}
+			
+			return {};
+		},
+		
+		showItem: function(){
+			return !!(this.displayItem.title);
+		},
+		
 		showReult: function(){
 			return (this.displayData.list && this.displayData.list.length>0)
 		},
 		
 		random_result: function(){
-			if(!this.displayData.list.length) {
+			if(!this.displayData.list.length || !this.random_list) {
 				return "";
 			}
 			
-			return this.random_list.map(el=> { let aParts = el.split("|"); return aParts.length>1?`<b>${aParts[0]}</b><br> ${aParts[1]}`:el}).join("<hr>");
+			return this.random_list.map(el=> { 
+				if(typeof el == 'string') {
+					let aParts = el.split("|"); return aParts.length>1?`<b>${aParts[0]}</b><br> ${aParts[1]}`:el					
+				} else {
+					return el.title;
+				}
+				
+			}).join("<hr>");
 		},
 		
 		displayMove: function(){
 			let oData = [];
 			let sKey = this.checked.subsection;
-			oContent = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
-			// if(sKey && this.subsection && this.subsection.length>0) {
-				// aList = this.subsection.find(el=>el.key==sKey);			
-			// } else {
-				// sKey = this.checked.section;
-				// if (sKey && this.section && this.section.length>0) {
-					// aList = this.section.find(el=>el.key==sKey);
-				// }
-			// }
+			//oContent = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			let oContent = this.libPathValue;
+			
 			if(oContent && oContent.type=='move'){
 				oData = oContent.move.data;
 				return oData;
@@ -364,7 +518,7 @@ var app = new Vue({
 		},
 		
 		showInfo: function(){
-			return !this.showMove && !this.showReult;
+			return !this.showMove && !this.showReult && !this.showItem;
 		}
 	},
 	mounted: function() {
@@ -413,7 +567,8 @@ var app = new Vue({
 				}
 			);
 			
-			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 		},
 		menu_priority: function(bMax){
 			this.enlarge_menu = !!bMax;
@@ -424,7 +579,8 @@ var app = new Vue({
 			this.checked.subsection = "";
 			this.section = lib_DW.getStructure(this.checked.main);
 			this.subsection = [];
-			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
 			
 			this.move_fails = [];
@@ -434,7 +590,8 @@ var app = new Vue({
 			this.checked.section = `${name}`;
 			this.checked.subsection = "";
 			this.subsection = lib_DW.getStructure(this.checked.main, this.checked.section);
-			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
 			
 			this.move_fails = [];
@@ -442,7 +599,8 @@ var app = new Vue({
 		},
 		subsectionClick: function({src, name}){
 			this.checked.subsection = `${name}`;
-			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
 			
 			this.move_fails = [];
@@ -523,6 +681,14 @@ var app = new Vue({
 			this.dm_helper.prompt = this.get_prompt();
 		},
 		
+		
+		show_start: function(){
+			this.checked.main="";
+			this.checked.section="";
+			this.checked.subsection="";
+			this.updateHash();
+		},
+		
 		updateHash: function() {
 			var aHash = [];
 			if(this.checked.main) {
@@ -563,7 +729,8 @@ var app = new Vue({
 				this.checked.subsection = aHash[2];
 			}
 			
-			this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			
 		}
 	}

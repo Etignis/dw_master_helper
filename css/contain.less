@@ -12,7 +12,7 @@
 li.no_offset{
 	padding-left: 0;
 	margin-left: 0;
-	display: block;
+	display: flex;
 }
 
 .contain{
@@ -28,6 +28,15 @@ li.no_offset{
 	}
 	.item{
 		margin: 1rem 0;
+		padding: .3rem;
+		border-radius: .3rem;
+		
+		transition: background .6s, color .3s;
+		
+		&:hover{
+			background: fade(@color, 50%);
+			color: white;
+		}
 	}
 	
 	h1{
@@ -92,6 +101,7 @@ li.no_offset{
 
 .move_fails{
 	margin: 3rem 0 1rem;
+	padding-left: 0;
 	
 	display: block;
 	
@@ -117,6 +127,56 @@ li.no_offset{
 	border-radius: @r-rad;
 	background: fade(@color, 40%);
 	color: white;
+}
+
+.card{
+	padding: 1rem;
+	margin: .4rem;
+	border: 1px solid @color;
+	border-radius: .3rem;
+	max-width: 70rem;
+	
+	h1{
+		margin: 0;
+	}
+	.description{
+		border-top: 1px solid @color;
+		padding-top: 1rem;
+    margin-top: 1rem;
+	}
+
+	.row{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		margin-bottom: .3rem;
+	}	
+	.tag_row{
+		 font-style: italic;
+		 margin: .8rem 0;
+	}
+	.tag::first-letter{
+		text-transform: lowercase;
+	}
+}
+
+.lister{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	position: relative;
+	
+	&::before{
+		//content: "⚙";
+		content: "⚬";
+		position: absolute;
+		left: -1.5rem;
+    top: -.2rem;
+	}
+	
+	div:first-child {
+		margin-right: 2rem;
+	}
 }
 
 .move_options{
@@ -188,6 +248,10 @@ li.no_offset{
 @media screen and (min-width: @m_w_1) {
 	#contain{	
 		box-shadow: 0 0 20px 10px @gray;
+	}
+	
+	.card{
+		min-width: 20rem;
 	}
 }
 

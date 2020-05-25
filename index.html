@@ -37,6 +37,11 @@
 	<div class='wrap'  id='app' >
 		<menu id='menu' :class='{maximise: enlarge_menu}' @click="menu_priority(1)">
 			<ul id="data_list">
+				<!--li>
+					<a href="#" @click="show_start" ><i class='icon home'></i></a>
+					<a href="#">✉</a>
+					<a href="#">✉</a>
+				</li-->
 				<item v-for="item in structure"
 					:key="item.key"
 					:name="item.key"
@@ -90,6 +95,9 @@
 				<p>
 					Здесь собраные некоторые ходы, исходы и идеи, которые могут пригодиться во время игры.
 				</p>
+				<p>
+					Кроме того, есть своеобразный "Подсказчик" для мастера. Кнопка с кубиком [⚅] показывает варианты ходов мастера, которые преиодически обновляются. Если в сцене назрела ситуация, где мастеру нужно сделать ход, н ос идеями туговато, подсказчик может помочь.
+				</p>
 			</div>
 		
 			<!-- Ходы -->
@@ -111,9 +119,21 @@
 				</ul>
 			</div>
 			
+			<!-- Предметы -->			
+			<div id='move' class='widther' v-show="showItem">
+				<card
+					:title="displayItem.title"
+					:tags="displayItem.tags"
+					:cost="displayItem.cost"
+					:weight="displayItem.weight"
+					:hold="displayItem.hold"
+					:description="displayItem.description"
+					/>				
+			</div>
+			
 			<!-- Списки -->
 			<div id='result' class='widther'  v-show="showReult" >
-				<section class='padding'>
+				<section class='padding'  v-show="String(random_result).length > 0">
 					<header>
 						<h1>Случайный результат:</h1>
 						<button @click="_random" title='Получить случайный результат' id='getRandom'>🎲</button>
@@ -121,6 +141,7 @@
 					
 					<div class='highlight' v-html="random_result">
 					</div>
+					
 					
 					<p v-html="displayData.pre">
 					</p>		
@@ -141,13 +162,13 @@
 				<section class='padding'>
 					<h1>Все варианты:</h1>
 					<ul>
-						<li v-for="item in displayData.list"
+						<lister v-for="item in displayData.list"
 								:key="item.i"
-								v-html="item.title"
-								class='item'
+								:title="item.title"
+								:subtitle="item.subtitle"
 						>
 
-						</li>
+						</lister>
 					</ul>
 				</section>
 			</div>

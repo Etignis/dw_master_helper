@@ -265,7 +265,7 @@ a:hover {
   cursor: pointer;
   font-weight: bold;
   color: #ccc;
-  transition: color .3s;
+  transition: color .3s, transform .3s;
 }
 #menu li:hover {
   color: #fff;
@@ -372,7 +372,7 @@ a:hover {
 li.no_offset {
   padding-left: 0;
   margin-left: 0;
-  display: block;
+  display: flex;
 }
 .contain {
   background: #4a4a4a;
@@ -398,6 +398,13 @@ li.no_offset {
 }
 .contain .item {
   margin: 1rem 0;
+  padding: .3rem;
+  border-radius: .3rem;
+  transition: background .6s, color .3s;
+}
+.contain .item:hover {
+  background: rgba(49, 131, 91, 0.5);
+  color: white;
 }
 .contain h1 {
   font-size: 24px;
@@ -450,6 +457,7 @@ li.no_offset {
 }
 .move_fails {
   margin: 3rem 0 1rem;
+  padding-left: 0;
   display: block;
 }
 .move_fails li {
@@ -472,6 +480,49 @@ li.no_offset {
   border-radius: 3px;
   background: rgba(49, 131, 91, 0.4);
   color: white;
+}
+.card {
+  padding: 1rem;
+  margin: .4rem;
+  border: 1px solid #31835b;
+  border-radius: .3rem;
+  max-width: 70rem;
+}
+.card h1 {
+  margin: 0;
+}
+.card .description {
+  border-top: 1px solid #31835b;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+.card .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: .3rem;
+}
+.card .tag_row {
+  font-style: italic;
+  margin: .8rem 0;
+}
+.card .tag::first-letter {
+  text-transform: lowercase;
+}
+.lister {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  position: relative;
+}
+.lister::before {
+  content: "⚬";
+  position: absolute;
+  left: -1.5rem;
+  top: -0.2rem;
+}
+.lister div:first-child {
+  margin-right: 2rem;
 }
 .move_options {
   margin: 2rem 0 1rem;
@@ -533,6 +584,9 @@ li.no_offset {
   #contain {
     box-shadow: 0 0 20px 10px #333;
   }
+  .card {
+    min-width: 20rem;
+  }
 }
 .floater {
   position: fixed;
@@ -546,7 +600,7 @@ li.no_offset {
   align-items: flex-end;
 }
 .floater button {
-  z-index: 999;
+  z-index: 1112;
   cursor: pointer;
   border: 1px solid transparent;
   border-radius: 50%;
@@ -556,6 +610,7 @@ li.no_offset {
   box-shadow: 0 3px 6px 0px #000000ab;
   display: flex;
   justify-content: center;
+  align-items: center;
   transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
   position: relative;
 }
@@ -693,7 +748,7 @@ li.no_offset {
   right: 10rem;
   bottom: 1rem;
   z-index: 1111;
-  max-width: 90vw;
+  max-width: 800px;
   max-height: 60vh;
   box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.9), 0px 70px 120px 110px #3b3b3b;
 }
