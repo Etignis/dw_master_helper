@@ -1,3 +1,9 @@
+var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+var is_android = navigator.platform.toLowerCase().indexOf("android") > -1;
+if(is_firefox && is_android){
+	alert ('Мобильный firefox не отображает все это великолепие')
+}
+
 document.addEventListener('DOMContentLoaded', function(){
 
 function randd(min, max) {
@@ -399,6 +405,8 @@ var app = new Vue({
 			subsection: ""
 		},
 		
+		showPreloader: true,
+		
 		section_actions: [{
 			title: "Случайный монстр",
 			key: "random_monster",
@@ -494,6 +502,7 @@ var app = new Vue({
 		
 		oConfig: {},
 		bAppIsReady: false,
+		bDebug: location.href.includes("debug=true"),
 		
 		bModalWinShow: false,
 		sModalWinCont: ""
@@ -625,6 +634,9 @@ var app = new Vue({
 		}
 	},
 	mounted: function() {
+		if(this.bDebug) {
+				alert('mount start');
+			}
 		// this.loadConfigData();			
 		// this.sModalWinCont = $("#info_text").html();
 		
@@ -638,22 +650,44 @@ var app = new Vue({
 		
 		// this.$refs.PactTypeCombobox.toggle(null, this.bPactTypesOpend);
 		// this.$refs.SourceCombobox.toggle(null, this.bSourcesOpend);
+		if(this.bDebug) {
+			alert('lib version: '+lib_DW.version)
+		}
 		this.structure = lib_DW.getStructure();
+		if(this.bDebug) {
+			alert('structure length: '+this.structure.length)
+		}
+		
 		
 		this.dm_helper.sources = this.structure[0].sub;
+		
+		if(this.bDebug) {
+			alert('sources length: '+this.dm_helper.sources.length)
+		}
+		
 		this.dm_helper.sources.forEach(el=>{el.active = el.key=='common'});
 		
 		// this.updateHash();
 		//this._setMoveLinks();
 		this.getHash();
 		
-		let oLoader = document.querySelector("#loader_overflow");
-		if(oLoader) {
-			oLoader.classList.add("hidden");
-			//oLoader.style.opacity = 0;
-			setTimeout(function(){oLoader.remove()}, 600);
+		// let oLoader = document.querySelector("#loader_overflow");
+		// if(oLoader) {
+			// oLoader.classList.add("hidden");
+			// setTimeout(function(){oLoader.remove()}, 600);
+		// }
+		setTimeout(function(){
+			this.showPreloader=false; this.bAppIsReady = true;
+			if(this.bDebug) {
+				alert('redy: '+this.bAppIsReady);
+			}
+		}.bind(this), 300);
+		
+		//this.bAppIsReady = true;		
+		
+		if(this.bDebug) {
+			alert('redy: '+this.bAppIsReady);
 		}
-		this.bAppIsReady = true;		
 		
 		window.addEventListener('hashchange',()=>{this.getHash();})
 		

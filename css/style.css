@@ -124,9 +124,29 @@ a:hover {
 #loader_overflow.hidden {
   opacity: 0;
 }
+#loader_warning {
+  max-width: 60rem;
+  opacity: 0;
+  animation-name: fade;
+  animation-duration: 800ms;
+  animation-delay: 9000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  transition: opacity .5s;
+}
+@keyframes fade {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .loader {
   width: 80px;
   height: 80px;
+  display: inline-block;
   position: relative;
   animation-name: spin;
   animation-duration: 1700ms;

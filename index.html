@@ -4,7 +4,7 @@
   <title>Dungeon World - помощник ведущего</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" type="text/css" href="css/style.css?v=0.6">
+  <link rel="stylesheet" type="text/css" href="css/style.css?v=0.81">
   <meta name="description" content="Списки ходов и исходов">
   <link href="../_fonts/FortAwesome/css/font-awesome.min.css" rel="stylesheet">
   <link rel="shortcut icon" href="favicon.ico" />
@@ -28,13 +28,29 @@
 </head>
 <body>
 
-	<div id='loader_overflow'>		
-		<div id='loader' class='loader'>
-			
-		</div>
-	</div>
 	
-	<div class='wrap'  id='app' >
+	<div class='wrap'  id='app' >	
+	
+		<div id='loader_overflow' v-show="!bAppIsReady">		
+			<div style='text-align: center;'>
+				<div id='loader' class='loader'>
+					
+				</div>
+				
+				<div id='loader_warning'>
+					Некотороые мобильные браузеры, например Firefox, не могут открыть все это великолепие.
+					<p>
+					¯\_(ツ)_/¯
+					</p>
+					<p>
+						Chrome и Firefox Nightly - могуть
+					</p>
+				</div>
+				
+				
+			</div>
+		</div>
+	
 		<menu id='menu' :class='{maximise: enlarge_menu}' @click="menu_priority(1)">
 			<ul id="data_list">
 				<li class='top_menu'>
@@ -111,7 +127,7 @@
 					Здесь собраные некоторые ходы, исходы и идеи, которые могут пригодиться во время игры.
 				</p>
 				<p>
-					Кроме того, есть своеобразный "Подсказчик" для мастера. Кнопка с кубиком [⚅] в правом нижнем углу показывает варианты ходов мастера, которые преиодически обновляются. Если в сцене назрела ситуация, где мастеру нужно сделать ход, н ос идеями туговато, подсказчик может помочь.
+					Кроме того, есть своеобразный "Подсказчик" для мастера. Кнопка с кубиком [⚅] в правом нижнем углу показывает варианты ходов мастера, которые преиодически обновляются. Если в сцене назрела ситуация, где мастеру нужно сделать ход, но с идеями туговато, подсказчик может помочь.
 				</p>
 			</div>
 		
@@ -219,7 +235,7 @@
 						</a>
 					</div>			
 					<div class='source'>
-						<a href="http://indigogames.ru/" class='outer_logo'>
+						<a href="https://indigogames.ru/" class='outer_logo'>
 							<img src='http://indigogames.ru/wp-content/uploads/2019/08/cropped-indigo_logo_big_new.png'>
 							<!-- <span>Магазин, где можно приобрести Dungeon World и много чего другого</span> -->
 						</a>
@@ -285,7 +301,8 @@
 	<script type='text/javascript' src="js/lib_DW.js" defer></script>
 	<script type='text/javascript' src="js/vue.js" defer></script>
   <!-- <script type='text/javascript' src='js/data.js' defer></script> -->
-  <script type='text/javascript' src='js/controller.js' defer></script>
+  <script type='text/javascript' src='js/controller.js?v=0.6' defer></script>
+	
 
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">

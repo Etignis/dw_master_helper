@@ -1821,7 +1821,7 @@
 								},
 								{
 									title: "Пир",
-									subtitle: "15 момент на человека"
+									subtitle: "15 монет на человека"
 								}
 							]
 						}
@@ -3661,6 +3661,8 @@
 		_Lib.getResult = _getResult;
 		
 		_Lib.getRandomMonster = _getRandomMonster;
+		
+		_Lib.version = '27.05.2020';
 
     return _Lib;
   }
