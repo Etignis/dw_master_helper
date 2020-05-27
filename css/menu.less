@@ -15,6 +15,52 @@
 	&.maximise{
 		max-height: 65vh;
 	}
+	.top_menu{
+		display: flex;
+		justify-content: space-between;
+    align-items: center;
+		flex-basis: 250px;
+		
+		a{
+			flex-grow: 1;
+			text-decoration: none;
+			color: #ccc;
+			text-align: center;
+			
+			transition: color .3s;
+			
+			&:hover{
+				color: @color;
+			}
+		}
+	}
+	.icon {
+		&.home{
+			@size: 1rem;
+			display: inline-block;
+			position: relative;
+			width: @size;
+			height: @size;
+			
+			@color: currentColor;
+			
+			border: 3px solid currentColor;
+			&:before {
+				content: "";
+				display: block;
+				width: @size;
+				height: @size;
+				border-top: 3px solid currentColor;
+				border-left: 3px solid currentColor;
+				position: absolute;
+				top: -0.8*@size;
+				left: -0.47*@size;
+				transform: rotate(45deg);
+				
+			}
+			
+		}
+	}
 	
 	ul {
 		margin: 0;
@@ -23,6 +69,7 @@
 		flex-wrap: wrap;
     flex-grow: 1;
     flex-basis: 100%;
+		align-content: space-evenly;
 	}
 	li{
 		display: block;
@@ -114,6 +161,10 @@
 		/*overflow-y: scroll;*/
 		flex-grow: 0;
 		flex-shrink: 0;
+		
+		.top_menu{
+			flex-basis: 50px;
+		}
 		
 		&.maximise{
 			max-height: 100vh;

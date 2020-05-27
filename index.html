@@ -37,11 +37,11 @@
 	<div class='wrap'  id='app' >
 		<menu id='menu' :class='{maximise: enlarge_menu}' @click="menu_priority(1)">
 			<ul id="data_list">
-				<!--li>
-					<a href="#" @click="show_start" ><i class='icon home'></i></a>
-					<a href="#">✉</a>
-					<a href="#">✉</a>
-				</li-->
+				<li class='top_menu'>
+					<a href="/" title='На главную страницу сайта'  ><i class='icon home'></i></a>
+					<a href="#" title='Показать стартовую страницу' @click="show_start"><span style='position: relative; top: -.3rem;'>☰</span></a>
+					<a href="https://tentaculus.ru/message/?theme=dw_helper" title='Написать сообщение'><span style='position: relative; top: -.3rem;'>✉</span></a>
+				</li>
 				<item v-for="item in structure"
 					:key="item.key"
 					:name="item.key"
@@ -69,7 +69,8 @@
 					
 					@lclick="section_actionClick($event)"
 				>
-				</item>					
+				</item>		
+				
 				<item v-for="item in section"
 					:key="item.key"
 					:name="item.key"
@@ -110,7 +111,7 @@
 					Здесь собраные некоторые ходы, исходы и идеи, которые могут пригодиться во время игры.
 				</p>
 				<p>
-					Кроме того, есть своеобразный "Подсказчик" для мастера. Кнопка с кубиком [⚅] показывает варианты ходов мастера, которые преиодически обновляются. Если в сцене назрела ситуация, где мастеру нужно сделать ход, н ос идеями туговато, подсказчик может помочь.
+					Кроме того, есть своеобразный "Подсказчик" для мастера. Кнопка с кубиком [⚅] в правом нижнем углу показывает варианты ходов мастера, которые преиодически обновляются. Если в сцене назрела ситуация, где мастеру нужно сделать ход, н ос идеями туговато, подсказчик может помочь.
 				</p>
 			</div>
 		

@@ -886,7 +886,10 @@ var app = new Vue({
 			this.checked.section="";
 			this.checked.subsection="";
 			this.updateHash();
+			this.getHash();
 		},
+		
+
 		
 		updateHash: function() {
 			var aHash = [];
@@ -922,13 +925,23 @@ var app = new Vue({
 				this._switchSectionAction(this.checked.main);
 				this.section_actions.forEach(oAction => {oAction.list.forEach(oListItem => {oListItem.value = ""})});
 				this.libPathValue = {};
+			} else {
+				// this.checked.main = "";
 			}
+			
 			if(aHash[1]) {
 				this.checked.section = aHash[1];
 				this.subsection = lib_DW.getStructure(this.checked.main, this.checked.section);
+			} else {
+				// this.checked.section = "";
+				// this.section = [];
 			}
+			
 			if(aHash[2]) {
 				this.checked.subsection = aHash[2];
+			} else {
+				// this.checked.subsection = "";
+				// this.subsection = []
 			}
 			
 			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);

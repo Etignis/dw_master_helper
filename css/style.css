@@ -250,6 +250,41 @@ a:hover {
 #menu.maximise {
   max-height: 65vh;
 }
+#menu .top_menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-basis: 250px;
+}
+#menu .top_menu a {
+  flex-grow: 1;
+  text-decoration: none;
+  color: #ccc;
+  text-align: center;
+  transition: color .3s;
+}
+#menu .top_menu a:hover {
+  color: #31835b;
+}
+#menu .icon.home {
+  display: inline-block;
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  border: 3px solid currentColor;
+}
+#menu .icon.home:before {
+  content: "";
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  border-top: 3px solid currentColor;
+  border-left: 3px solid currentColor;
+  position: absolute;
+  top: -0.8rem;
+  left: -0.47rem;
+  transform: rotate(45deg);
+}
 #menu ul {
   margin: 0;
   padding: 0;
@@ -257,6 +292,7 @@ a:hover {
   flex-wrap: wrap;
   flex-grow: 1;
   flex-basis: 100%;
+  align-content: space-evenly;
 }
 #menu li {
   display: block;
@@ -343,6 +379,9 @@ a:hover {
     /*overflow-y: scroll;*/
     flex-grow: 0;
     flex-shrink: 0;
+  }
+  #menu .top_menu {
+    flex-basis: 50px;
   }
   #menu.maximise {
     max-height: 100vh;
