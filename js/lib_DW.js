@@ -2846,7 +2846,7 @@
 				},
 				{
 					title: "Сокровища",
-					key: "trerasure",
+					key: "treasure",
 					color: "",
 					ico: "",
 					data: {

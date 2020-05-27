@@ -270,6 +270,19 @@ a:hover {
 #menu li:hover {
   color: #fff;
 }
+#menu li.action {
+  border-radius: .3rem;
+  padding: .9rem;
+  margin: .9rem;
+  border: 1px solid #31835b;
+  transition: background .2s;
+}
+#menu li.action:hover {
+  background: #31835b;
+}
+#menu li.action:active {
+  background: #235e41;
+}
 #menu .selected_1 {
   background: #31835b;
   border-image: url(../img/brush3.png) 13 13 13 13 repeat;
@@ -431,14 +444,29 @@ li.no_offset {
   background: none;
   border: none;
   border: 2px solid transparent;
-  padding: 1rem;
-  margin: 0.5rem;
   font-size: 120%;
   transition: background .3s, border .3s;
 }
 .contain button:hover {
   border: 2px solid #31835b;
   background: #31835b;
+}
+.contain #getRandom {
+  padding: 1rem;
+  margin: 0.5rem;
+}
+.contain .random_item {
+  border-radius: .3rem;
+  border: 1px solid #31835b;
+  background: #424242;
+  padding: .6rem;
+  margin: .3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.color {
+  color: #31835b;
 }
 #contain {
   display: flex;

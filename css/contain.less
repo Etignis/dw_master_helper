@@ -68,8 +68,6 @@ li.no_offset{
 		background: none;
 		border: none;
 		border: 2px solid transparent;
-		padding: @padding;
-		margin: @padding/2;
 		font-size: 120%;
 		transition: background .3s, border .3s;
 		
@@ -78,6 +76,28 @@ li.no_offset{
 			background: @color;
 		}
 	}
+	
+	#getRandom{		
+		padding: @padding;
+		margin: @padding/2;
+	}
+	
+	.random_item{		
+		border-radius: .3rem;		
+		border: 1px solid @color;		
+		background: @gray2;
+		
+		padding: .6rem;
+    margin: .3rem;
+		
+		display: flex;
+		align-items: center;
+    justify-content: space-between;
+	}
+}
+
+.color{
+	color: @color;
 }
 
 #contain{

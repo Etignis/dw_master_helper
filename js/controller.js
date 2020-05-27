@@ -60,6 +60,10 @@ Vue.component('item', {
 			type: String,
 			default: ""
 		},
+		style_class: {
+			type: String,
+			default: ""
+		},
 	},
 	data: function(){
 		return {};
@@ -80,12 +84,15 @@ Vue.component('item', {
 		},
 		selected: function(){
 			return this.checked == this.name? `selected_${randd(1,6)}`: "";
+		},
+		additional: function(){
+			return this.style_class || ""
 		}
 	},
 	created: function(){
 		
 	},
-	template: `<li @click="labelClick" :class='[selected]'>
+	template: `<li @click="labelClick" :class='[selected, additional]'>
 	{{title}}
 </li>`
 });
@@ -392,6 +399,80 @@ var app = new Vue({
 			subsection: ""
 		},
 		
+		section_actions: [{
+			title: "Случайный монстр",
+			key: "random_monster",
+			from: "frankenstein",
+			action: "get_random_monster",
+			visible: false,
+			showResult: false,
+			
+			list: [
+				{
+					key: "",
+					title: "Свойства",
+					value: "",
+					params: `frankenstein/props`
+				},
+				{
+					key: "",
+					title: "Тактика",
+					value: "",
+					params:`frankenstein/tactics`
+				},
+				{
+					key: "",
+					title: "Ход",
+					value: "",
+					params: `frankenstein/moves`
+				},
+				{
+					key: "",
+					title: "Сокровище",
+					value: "",
+					params: `frankenstein/treasure`
+				}
+			]
+		},{
+			title: "Случайный персонаж",
+			key: "random_character",
+			from: "character_randoms",
+			action: "get_random_character",
+			visible: false,
+			showResult: false,
+			
+			list: [
+				{
+					key: "",
+					title: "Имя",
+					value: "",
+					params: `character_randoms/names`
+				},
+				{
+					key: "",
+					title: "Инстинкт",
+					value: "",
+					params: `character_randoms/instinct`
+				},
+				{
+					key: "",
+					title: "Тактика",
+					value: "",
+					params:`character_randoms/way`
+				}
+			]
+		}
+		],
+		
+		random: {
+			monster: {
+				list: []
+			},
+			person: {
+				list: []
+			}
+		},
+		
 		libPathValue: {},
 		list_data: {},
 		random_list: [],
@@ -421,6 +502,20 @@ var app = new Vue({
 	computed: {		
 		_libContent: function(){
 			
+		},
+		_random_set_result: function (){
+			let oItem = this.section_actions.find(el=> el.showResult == true);
+			if(oItem){
+				return oItem.list;
+			}
+			return [];
+		},
+		_random_set_title: function(){
+			let oItem = this.section_actions.find(el=> el.showResult == true);
+			if(oItem){
+				return oItem.title;
+			}
+			return "";
 		},
 		displayData: function(){
 			let oContent = {};
@@ -518,7 +613,15 @@ var app = new Vue({
 		},
 		
 		showInfo: function(){
-			return !this.showMove && !this.showReult && !this.showItem;
+			return !this.showMove && !this.showReult && !this.showItem && !this.showRandomSet;
+		},
+		
+		section_action_list: function(){
+			return this.section_actions.filter(el=>el.visible != false);
+		},
+		
+		showRandomSet: function(){
+			return this._random_set_result.map(el=>el.value).filter(el=>!!el).length>0
 		}
 	},
 	mounted: function() {
@@ -573,6 +676,11 @@ var app = new Vue({
 		menu_priority: function(bMax){
 			this.enlarge_menu = !!bMax;
 		},
+		_switchSectionAction: function(sKey){
+			for (let i=0; i < this.section_actions.length; i++) {
+				this.section_actions[i].visible = this.section_actions[i].from == sKey;
+			}
+		},
 		dataClick: function({src, name}){
 			this.checked.main = `${name}`;
 			this.checked.section = "";
@@ -585,6 +693,12 @@ var app = new Vue({
 			
 			this.move_fails = [];
 			this._random();
+			
+			/// actions
+			
+			this._switchSectionAction(this.checked.main);
+			this.section_actions.forEach(oAction => {oAction.list.forEach(oListItem => {oListItem.value = ""})});
+			this.libPathValue = {};
 		},
 		sectionClick: function({src, name}){
 			this.checked.section = `${name}`;
@@ -596,6 +710,31 @@ var app = new Vue({
 			
 			this.move_fails = [];
 			this._random();
+			
+			
+			this.section_actions.forEach(oAction => {oAction.list.forEach(oListItem => {oListItem.value = ""})});
+			this.libPathValue = {};
+		},
+		section_actionClick: function({src, name}){
+			this.checked.section = "";
+			this.checked.subsection = "";
+			this.libPathValue = {};
+			
+			this.section_actions.forEach(oAction => {oAction.showResult = false; oAction.list.forEach(oListItem => {oListItem.value = ""})});
+			let oSelected = this.section_actions.find(el=>el.key == name);
+			oSelected.showResult=true;
+			//this.updateHash();
+			if(oSelected && oSelected.list){
+				//this[oSelected.action].call(this, oSelected);
+				
+				oSelected.list.forEach(oItem => {
+					let sVal =  lib_DW.getResult(
+					oItem.params, {}
+					);
+					
+					oItem.value = this._formatTitle(sVal[0]);
+				});
+			}
 		},
 		subsectionClick: function({src, name}){
 			this.checked.subsection = `${name}`;
@@ -604,9 +743,69 @@ var app = new Vue({
 			this.updateHash();
 			
 			this.move_fails = [];
-			this._random();
+			this._random();			
+			
+			this.section_actions.forEach(oAction => {oAction.list.forEach(oListItem => {oListItem.value = ""})});
+			this.libPathValue = {};
 		},
 		
+		
+		_formatTitle: function(sText){
+			let aParts = sText.split("|");
+			return aParts.length>1? `<b>${aParts[0]}</b> ${aParts[1]}` : aParts[0];
+		},
+		
+		get_random_monster: function(){
+			let aProps = this.random_list = lib_DW.getResult(
+				`frankenstein/props`, {}
+				);
+			let aTactics = this.random_list = lib_DW.getResult(
+				`frankenstein/tactics`, {}
+				);
+			let aMoves = this.random_list = lib_DW.getResult(
+				`frankenstein/moves`, {}
+				);
+			let aTreasure = this.random_list = lib_DW.getResult(
+				`frankenstein/treasure`, {}
+				);
+				
+				
+				this.section_actions.find(el=> el.key == "random_monster").list = [
+					{
+						key: "",
+						title: "Свойства",
+						value: this._formatTitle(aProps[0]),
+						params: `frankenstein/props`
+					},
+					{
+						key: "",
+						title: "Тактика",
+						value: aTactics[0],
+						params:`frankenstein/tactics`
+					},
+					{
+						key: "",
+						title: "Ход",
+						value: aMoves[0],
+						params: `frankenstein/moves`
+					},
+					{
+						key: "",
+						title: "Сокровище",
+						value: aTreasure[0],
+						params: `frankenstein/treasure`
+					}
+				];
+				
+		},
+		
+		_onRandomGeneratedClick: function(oData){
+			//debugger;
+			let aVals = this.random_list = lib_DW.getResult(
+				oData.params, {}
+				);
+			this.section_actions.find(el=> el.key == "random_monster").list.find(el=>el.params == oData.params).value = this._formatTitle(aVals[0]);
+		},
 		//moves
 		
 		onChoose: function({key, value, checked}){
@@ -720,6 +919,9 @@ var app = new Vue({
 			if(aHash[0]) {
 				this.checked.main = aHash[0];
 				this.section = lib_DW.getStructure(this.checked.main);
+				this._switchSectionAction(this.checked.main);
+				this.section_actions.forEach(oAction => {oAction.list.forEach(oListItem => {oListItem.value = ""})});
+				this.libPathValue = {};
 			}
 			if(aHash[1]) {
 				this.checked.section = aHash[1];

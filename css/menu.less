@@ -23,8 +23,6 @@
 		flex-wrap: wrap;
     flex-grow: 1;
     flex-basis: 100%;
-		
-		
 	}
 	li{
 		display: block;
@@ -41,6 +39,23 @@
 			//transform: scale(1.05);
 			//background: fade(white, 15);
 			//background: linear-gradient(to right, fade(white, 25),  fade(white, 16));
+		}
+		
+		&.action{
+			border-radius: .3rem;
+			padding: .9rem;
+			margin: .9rem;			
+			
+			border: 1px solid @color;
+			
+			transition: background .2s;
+			
+			&:hover{
+				background: @color;
+			}
+			&:active{
+				background: darken(@color, 10%);
+			}
 		}
 	}
 	.selected{

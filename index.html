@@ -55,7 +55,21 @@
 				>
 				</item>
 			</ul>
-			<ul id="section_list">
+			<ul id="section_list">				
+				<item v-for="item in section_action_list" 
+					:key="item.key"
+					:name="item.key"
+					src='section'
+					:title="item.title"
+					:ico="item.ico"
+					:color="item.color"
+					:checked="checked.section"
+					
+					style_class="action"
+					
+					@lclick="section_actionClick($event)"
+				>
+				</item>					
 				<item v-for="item in section"
 					:key="item.key"
 					:name="item.key"
@@ -129,6 +143,22 @@
 					:hold="displayItem.hold"
 					:description="displayItem.description"
 					/>				
+			</div>
+			
+			<!-- Случайный набор -->
+			<div id='random_set' class='widther' v-show="showRandomSet">
+				<h1>
+					{{_random_set_title}}
+				</h1>
+				<ul style='display: block;'>
+					<li v-for="item in _random_set_result" class='random_item'>
+						<div>
+							<span class='color'>{{item.title}}: </span>
+							<span v-html="item.value"></span>
+						</div>						
+						<button @click="_onRandomGeneratedClick(item)">🎲</button>
+					</li>
+				</ul>
 			</div>
 			
 			<!-- Списки -->
