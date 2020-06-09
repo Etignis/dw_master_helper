@@ -179,7 +179,18 @@ li.no_offset{
 		text-transform: lowercase;
 	}
 }
-
+ul{
+	&.compact{
+		display: flex;
+    flex-wrap: wrap;
+		
+		li{
+			flex-basis: 200px;
+			flex-grow: 1;
+			flex-shrink: 1;
+		}
+	}
+}
 .lister{
 	display: flex;
 	flex-wrap: wrap;

@@ -612,7 +612,6 @@ var app = new Vue({
 				oData = oContent.move.data;
 				return oData;
 			}
-	
 			
 			return {};
 		},
@@ -631,6 +630,16 @@ var app = new Vue({
 		
 		showRandomSet: function(){
 			return this._random_set_result.map(el=>el.value).filter(el=>!!el).length>0
+		},
+		
+		listCompact: function(){
+			if(this.displayData && this.displayData.list && this.displayData.list.length>0) {
+				let nAvr = this.displayData.list.reduce((a, b, i, arr) => a + b.title.length / arr.length, 0);
+				if(nAvr<24){
+					return true;
+				}
+			}
+			return false;
 		}
 	},
 	mounted: function() {

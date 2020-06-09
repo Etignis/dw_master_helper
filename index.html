@@ -208,11 +208,11 @@
 				</section>
 				<section class='padding'>
 					<h1>Все варианты:</h1>
-					<ul>
+					<ul :class="{compact: listCompact}">
 						<lister v-for="item in displayData.list"
-								:key="item.i"
-								:title="item.title"
-								:subtitle="item.subtitle"
+							:key="item.i"
+							:title="item.title"
+							:subtitle="item.subtitle"
 						>
 
 						</lister>
