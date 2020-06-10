@@ -847,7 +847,10 @@ var app = new Vue({
 			let aVals = this.random_list = lib_DW.getResult(
 				oData.params, {}
 				);
-			this.section_actions.find(el=> el.key == "random_monster").list.find(el=>el.params == oData.params).value = this._formatTitle(aVals[0]);
+			let oItem = this.section_actions.find(el=> el.showResult == true);
+			if(oItem){				
+				oItem.list.find(el=>el.params == oData.params).value = this._formatTitle(aVals[0]);
+			}
 		},
 		//moves
 		
