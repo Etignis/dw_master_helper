@@ -897,11 +897,11 @@ var app = new Vue({
 			}
 		},
 		switch_helper: function(){			
-			this.dm_helper.active = !this.dm_helper.active;
+			let bActive = this.dm_helper.active = !this.dm_helper.active;
 			
-			this.switch_prompt(this.dm_helper.active);
+			this.switch_prompt(bActive);
 			
-			if(this.dm_helper.active) {
+			if(bActive) {
 				this.dm_helper.timer = setInterval(function(){
 					this.switch_prompt(this.dm_helper.active);
 				}.bind(this), 1000*60);				
