@@ -9,6 +9,12 @@
 	background: @gray2;
 }
 
+.move{
+	ul{
+		margin-top: 1rem;
+	}
+}
+
 li.no_offset{
 	padding-left: 0;
 	margin-left: 0;
@@ -54,6 +60,11 @@ li.no_offset{
 		background: @color;
 		padding: @padding;
 		color: white;
+	}
+	
+	.requirements, .replace {
+		font-style: italic;
+		margin-bottom: @padding;
 	}
 	
 	header{
@@ -158,6 +169,13 @@ li.no_offset{
 	
 	h1{
 		margin: 0;
+		display: flex;		
+    flex-wrap: wrap;
+    justify-content: space-between;
+		span{
+			font-weight: normal;
+			font-size: 90%;
+		}
 	}
 	.description{
 		border-top: 1px solid @color;

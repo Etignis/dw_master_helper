@@ -34,6 +34,9 @@
 .flexChild {
   flex-grow: 1;
 }
+.nowrap {
+  white-space: nowrap ;
+}
 [v-cloak] {
   display: none;
 }
@@ -339,6 +342,11 @@ a:hover {
 #menu li.action:active {
   background: #235e41;
 }
+#menu li.group_title {
+  color: #999;
+  border-bottom: 1px solid #999;
+  width: 100%;
+}
 #menu .selected_1 {
   background: #31835b;
   border-image: url(../img/brush3.png) 13 13 13 13 repeat;
@@ -441,6 +449,9 @@ a:hover {
   padding: .5rem;
   background: #424242;
 }
+.move ul {
+  margin-top: 1rem;
+}
 li.no_offset {
   padding-left: 0;
   margin-left: 0;
@@ -491,6 +502,11 @@ li.no_offset {
   background: #31835b;
   padding: 1rem;
   color: white;
+}
+.contain .requirements,
+.contain .replace {
+  font-style: italic;
+  margin-bottom: 1rem;
 }
 .contain header {
   display: flex;
@@ -577,6 +593,13 @@ li.no_offset {
 }
 .card h1 {
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.card h1 span {
+  font-weight: normal;
+  font-size: 90%;
 }
 .card .description {
   border-top: 1px solid #31835b;

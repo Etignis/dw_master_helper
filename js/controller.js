@@ -62,6 +62,10 @@ Vue.component('item', {
 			type: String,
 			default: ""
 		},
+		type: {
+			type: String,
+			default: ""
+		},
 		color: {
 			type: String,
 			default: ""
@@ -76,6 +80,9 @@ Vue.component('item', {
 	},
 	methods: {
 		labelClick: function(oEvent){
+			if(this.type == 'group_title') {
+				return false;
+			}
 			let o = {
 				src: this.src, 
 				name: this.name
@@ -89,17 +96,37 @@ Vue.component('item', {
 			return "ch_"+this.val;
 		},
 		selected: function(){
-			return this.checked == this.name? `selected_${randd(1,6)}`: "";
+			return (this.type != 'group_title' && this.checked == this.name)? `selected_${randd(1,6)}`: "";
+		},
+		group_title: function(){
+			return this.type == 'group_title'? 'group_title':"";
 		},
 		additional: function(){
 			return this.style_class || ""
+		},
+		_type: function(){
+			switch(this.type){
+				case "default": return "○"; break;
+				case "Advanced1": return "•"; break;
+				case "Advanced2": return "☀"; break;
+			}
+			return "";
+		},
+		_type_title: function(){
+			switch(this.type){
+				case "default": return "Стартовый"; break;
+				case "Advanced1": return "Продвинутый 1-5"; break;
+				case "Advanced2": return "Продвинутый 1-10"; break;
+			}
+			return "";
 		}
 	},
 	created: function(){
 		
 	},
-	template: `<li @click="labelClick" :class='[selected, additional]'>
-	{{title}}
+	template: `<li @click="labelClick" :class='[group_title, selected, additional]'>
+	<span :title="_type_title">{{_type}}</span>
+	<span v-html="title"></span>
 </li>`
 });
 
@@ -136,6 +163,14 @@ Vue.component('move', {
 			type: String,
 			default: ""
 		},
+		requirements: {
+			type: String,
+			default: ""
+		},
+		replace: {
+			type: String,
+			default: ""
+		},
 		condition: {
 			type: String,
 			default: ""
@@ -161,7 +196,7 @@ Vue.component('move', {
 	},
 	computed: {
 		isVariants: function(){
-			return this.variants && this.variants.list
+			return this.variants /*&& this.variants.list*/
 		},
 
 		_results: function(){
@@ -182,7 +217,20 @@ Vue.component('move', {
 				let aList = aLines.map(el=>`<li>${el.trim()}</li>`);
 				return `${sStart} <ul>${aList.join("")}</ul>`;
 			}
-			return this.condition;
+			return this.condition.replace(/\[([^\[\]]+)\]/g, "<b>$1</b>");
+		},
+		_requirements_title: function(){
+			return (this.requirements)? "Требуется: ":"";
+		},
+		_replace_title: function(){
+			return (this.replace)? "Заменяет: ":"";
+		},
+		
+		_varinats_title: function(){
+			if(!this.variants || !this.variants.title) {
+				return "";
+			}
+			return  this.variants.title.split("|").map(el=> `<p>${el}</p>`).join("\r\n");
 		}
 	},
 	created: function(){
@@ -190,6 +238,8 @@ Vue.component('move', {
 	},
 	template: `<article class='move'>
 		<h1 class='title'>{{title}}</h1>
+		<div class='requirements'>{{_requirements_title}}{{requirements}}</div>
+		<div class='replace'>{{_replace_title}}{{replace}}</div>
 		<div class='condition' v-html="_condition"></div>
 		<ul>
 			<li v-for="item in _results">
@@ -208,7 +258,7 @@ Vue.component('move', {
 			</li>
 		</ul>
 		<div v-if="isVariants">
-			<div>{{variants.title}}</div>
+			<div v-html="_varinats_title"></div>
 			<ul>
 				<li v-for="item in variants.list">
 				{{item.title}}
@@ -232,6 +282,10 @@ Vue.component('card', {
 		cost: {
 			type: String,
 			default: ""
+		},
+		level: {
+			type: Number,
+			default: -1
 		},
 		weight: {
 			type: String,
@@ -261,14 +315,24 @@ Vue.component('card', {
 			return this.tags.map(el=>`<span class='tag'>${el[0].toUpperCase() + el.slice(1)}</span>`).join(", ");
 		},
 		_description: function(){
-			return this.description.split("|").map(el => `<p>${el}</p>`).join("\r\n");
+			return this.description	.split(/[|]/).map(el => `<p>${el}</p>`).join("\r\n");
+		},
+		
+		_level: function(){
+			if(this.level==0) {
+				return "фокус";
+			}
+			if(this.level>0) {
+				return `${this.level} уровень`;
+			}
+			return "";
 		}
 	},
 	created: function(){
 		
 	},
 	template: `<article class='card'>
-		<h1 class='title'>{{title}}</h1>
+		<h1 class='title'>{{title}}<span>{{_level}}</span></h1>
 		<div class='row tag_row' v-if="tags.length > 0">
 			<div v-html="_tags"></div>
 		</div>
@@ -620,10 +684,6 @@ var app = new Vue({
 			return bMove;
 		},
 		
-		showInfo: function(){
-			return !this.showMove && !this.showReult && !this.showItem && !this.showRandomSet;
-		},
-		
 		section_action_list: function(){
 			return this.section_actions.filter(el=>el.visible != false);
 		},
@@ -640,6 +700,10 @@ var app = new Vue({
 				}
 			}
 			return false;
+		},
+		
+		showInfo: function(){
+			return !this.showMove && !this.showReult && !this.showItem && !this.showRandomSet;
 		}
 	},
 	mounted: function() {
@@ -743,10 +807,63 @@ var app = new Vue({
 			this.section_actions.forEach(oAction => {oAction.list.forEach(oListItem => {oListItem.value = ""})});
 			this.libPathValue = {};
 		},
+		_formatMenuListbyGroups: function(aList){
+			
+			
+			if(aList[0] && aList[0].level != undefined){
+				aList = aList.sort((a,b) => {return (a.level==undefined?-1:a.level)-(b.level==undefined?-1:b.level)});
+				let aGroupNames = [];
+				aList.forEach(el=>{
+					if(!aGroupNames.includes(el.level)){
+						aGroupNames.push(el.level);
+					}
+				});
+				
+				for(let i=aGroupNames.length-1; i>=0; i--){
+					let sGroup = aGroupNames.pop();
+					let nIndex = aList.findIndex(el=>el.level==sGroup);
+					if(nIndex!=undefined){
+						aList.splice(nIndex,0,{
+							type:"group_title",
+							title: `Уровень ${sGroup}`
+						});
+					}
+				} 
+				
+			} else if(String(aList[0] && aList[0].type).length>0) {
+				aList = aList.sort((a,b) => {return (a.type==undefined?-1:a.type)-(b.type==undefined?-1:b.type)});
+				let aGroupNames = [];
+				aList.forEach(el=>{
+					if(!aGroupNames.includes(el.type)){
+						aGroupNames.push(el.type);
+					}
+				});
+				
+				for(let i=aGroupNames.length-1; i>=0; i--){
+					let sGroup = aGroupNames.pop();
+					let nIndex = aList.findIndex(el=>el.type==sGroup);
+					if(nIndex!=undefined){
+						let sGroupTitle = "Начальные ходы";
+						if(sGroup==1) {
+							sGroupTitle = "Ходы уровней <span class='nowrap'>2-5</span>";
+						}
+						if(sGroup==2) {
+							sGroupTitle = "Ходы уровней <span class='nowrap'>6-10</span>";
+						}
+						aList.splice(nIndex,0,{
+							type:"group_title",
+							title: sGroupTitle
+						});
+					}
+				}
+			}
+			
+			return aList;
+		},
 		sectionClick: function({src, name}){
 			this.checked.section = `${name}`;
 			this.checked.subsection = "";
-			this.subsection = lib_DW.getStructure(this.checked.main, this.checked.section);
+			this.subsection = this._formatMenuListbyGroups(lib_DW.getStructure(this.checked.main, this.checked.section));
 			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
@@ -977,7 +1094,7 @@ var app = new Vue({
 			
 			if(aHash[1]) {
 				this.checked.section = aHash[1];
-				this.subsection = lib_DW.getStructure(this.checked.main, this.checked.section);
+				this.subsection = this._formatMenuListbyGroups(lib_DW.getStructure(this.checked.main, this.checked.section));
 			} else {
 				// this.checked.section = "";
 				// this.section = [];

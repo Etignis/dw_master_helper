@@ -105,6 +105,7 @@
 					:key="item.key"
 					:name="item.key"
 					src='subsection'
+					:type="String(item.type)"
 					:title="item.title"
 					:checked="checked.subsection"
 					:ico="item.ico"
@@ -139,6 +140,8 @@
 				<move 
 					:name="displayMove.key"
 					:title="displayMove.title"
+					:requirements="displayMove.requirements"
+					:replace="displayMove.replace"
 					:condition="displayMove.condition"
 					:results="displayMove.results"
 					:variants="displayMove.variants"
@@ -153,11 +156,12 @@
 				</ul>
 			</div>
 			
-			<!-- Предметы -->			
+			<!-- Предметы и заклинания-->			
 			<div id='move' class='widther' v-show="showItem">
 				<card
 					:title="displayItem.title"
 					:tags="displayItem.tags"
+					:level="displayItem.level"
 					:cost="displayItem.cost"
 					:weight="displayItem.weight"
 					:hold="displayItem.hold"
@@ -304,7 +308,7 @@
 	<script type='text/javascript' src="js/lib_DW.js" defer></script>
 	<script type='text/javascript' src="js/vue.js" defer></script>
   <!-- <script type='text/javascript' src='js/data.js' defer></script> -->
-  <script type='text/javascript' src='js/controller.js?v=0.8' defer></script>
+  <script type='text/javascript' src='js/controller.js' defer></script>
 	
 
 <!-- Yandex.Metrika counter -->
