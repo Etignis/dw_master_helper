@@ -202,8 +202,6 @@ Vue.component('move', {
 		_results: function(){
 			if(this.results && this.results.length>0) {
 				return this.results.map(el=>{
-					//let sLinks = el.links?el.links.join(" "):"";
-					//debugger;
 					let oInnerList = el.list? el.list.data.map(el=>el.title) : [];
 					return {text: el.title, links: el.links , list: oInnerList}//`${el.title} ${sLinks}`
 				})
@@ -211,13 +209,14 @@ Vue.component('move', {
 			return [];
 		},
 		_condition: function(){
-			if(this.condition.includes("●")) {
-				let aLines = this.condition.split(/●/);
+			let sText = this.condition.split("|").map(el=>`<p>${el}</p>`).join("\r\n").replace(/\[([^\[\]]+)\]/g, "<b>$1</b>");
+			if(sText.includes("●")) {
+				let aLines = sText.split(/●/);
 				let sStart = aLines.shift();
 				let aList = aLines.map(el=>`<li>${el.trim()}</li>`);
 				return `${sStart} <ul>${aList.join("")}</ul>`;
 			}
-			return this.condition.replace(/\[([^\[\]]+)\]/g, "<b>$1</b>");
+			return sText;
 		},
 		_requirements_title: function(){
 			return (this.requirements)? "Требуется: ":"";
