@@ -16,6 +16,10 @@ function shuffle(o, bRand){
   return o;
 };
 
+function _formatText(sText){
+	return sText.split("|").map(el=>`<p>${el}</p>`).join("\r\n");
+}
+
 function parseDie(sDie){
 	// nDn+n
 	let oDice = sDie.match(/(\d+)?d(\d+)([+-]\d+)?/i); // 1,2,4,5
@@ -209,7 +213,7 @@ Vue.component('move', {
 			return [];
 		},
 		_condition: function(){
-			let sText = this.condition.split("|").map(el=>`<p>${el}</p>`).join("\r\n").replace(/\[([^\[\]]+)\]/g, "<b>$1</b>");
+			let sText = _formatText(this.condition).replace(/\[([^\[\]]+)\]/g, "<b>$1</b>");
 			if(sText.includes("●")) {
 				let aLines = sText.split(/●/);
 				let sStart = aLines.shift();
@@ -229,7 +233,7 @@ Vue.component('move', {
 			if(!this.variants || !this.variants.title) {
 				return "";
 			}
-			return  this.variants.title.split("|").map(el=> `<p>${el}</p>`).join("\r\n");
+			return  _formatText(this.variants.title);
 		}
 	},
 	created: function(){
@@ -314,7 +318,7 @@ Vue.component('card', {
 			return this.tags.map(el=>`<span class='tag'>${el[0].toUpperCase() + el.slice(1)}</span>`).join(", ");
 		},
 		_description: function(){
-			return this.description	.split(/[|]/).map(el => `<p>${el}</p>`).join("\r\n");
+			return _formatText(this.description);
 		},
 		
 		_level: function(){
@@ -571,7 +575,7 @@ var app = new Vue({
 		sModalWinCont: ""
 	},
 
-	computed: {		
+	computed: {
 		_libContent: function(){
 			
 		},
@@ -703,6 +707,13 @@ var app = new Vue({
 		
 		showInfo: function(){
 			return !this.showMove && !this.showReult && !this.showItem && !this.showRandomSet;
+		},
+		
+		sources_info: function(){
+			if (this.libPathValue && this.libPathValue.sources) {
+				return this.libPathValue.sources.map(el=>_formatText(el)).join("\r\n");
+			}
+			return "";
 		}
 	},
 	mounted: function() {
@@ -794,7 +805,7 @@ var app = new Vue({
 			this.section = lib_DW.getStructure(this.checked.main);
 			this.subsection = [];
 			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
-			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			//this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
 			
 			this.move_fails = [];
@@ -806,63 +817,95 @@ var app = new Vue({
 			this.section_actions.forEach(oAction => {oAction.list.forEach(oListItem => {oListItem.value = ""})});
 			this.libPathValue = {};
 		},
-		_formatMenuListbyGroups: function(aList){
-			
-			
-			if(aList[0] && aList[0].level != undefined){
-				aList = aList.sort((a,b) => {return (a.level==undefined?-1:a.level)-(b.level==undefined?-1:b.level)});
+		_formatMenuListbyGroups: function(aList, oMetadata){
+			if(oMetadata && oMetadata.group) {
+				let sProp = oMetadata.group.by;
+				aList = aList.sort((a,b) => {return (a[sProp]==undefined?-1:a[sProp])-(b[sProp]==undefined?-1:b[sProp])});
 				let aGroupNames = [];
+				let oDict = oMetadata.group.rules;
 				aList.forEach(el=>{
-					if(!aGroupNames.includes(el.level)){
-						aGroupNames.push(el.level);
+					if(!aGroupNames.find(item=>item.value == oDict[el[sProp]])){
+						//aGroupNames[el[sProp]] = oDict[el[sProp]];
+						aGroupNames.push({
+							key: el[sProp],
+							value: oDict[el[sProp]]
+						})
 					}
 				});
-				
 				for(let i=aGroupNames.length-1; i>=0; i--){
 					let sGroup = aGroupNames.pop();
-					let nIndex = aList.findIndex(el=>el.level==sGroup);
+					
+					let sGroupTitle = sGroup.value;					
+					let nGroupIndex = sGroup.key;
+
+					let nIndex = aList.findIndex(el=>el[sProp]==nGroupIndex);
 					if(nIndex!=undefined){
-						aList.splice(nIndex,0,{
-							type:"group_title",
-							title: `Уровень ${sGroup}`
-						});
-					}
-				} 
-				
-			} else if(String(aList[0] && aList[0].type).length>0) {
-				aList = aList.sort((a,b) => {return (a.type==undefined?-1:a.type)-(b.type==undefined?-1:b.type)});
-				let aGroupNames = [];
-				aList.forEach(el=>{
-					if(!aGroupNames.includes(el.type)){
-						aGroupNames.push(el.type);
-					}
-				});
-				
-				for(let i=aGroupNames.length-1; i>=0; i--){
-					let sGroup = aGroupNames.pop();
-					let nIndex = aList.findIndex(el=>el.type==sGroup);
-					if(nIndex!=undefined){
-						let sGroupTitle = "Начальные ходы";
-						if(sGroup==1) {
-							sGroupTitle = "Ходы уровней <span class='nowrap'>2-5</span>";
-						}
-						if(sGroup==2) {
-							sGroupTitle = "Ходы уровней <span class='nowrap'>6-10</span>";
-						}
 						aList.splice(nIndex,0,{
 							type:"group_title",
 							title: sGroupTitle
 						});
 					}
+				} 
+					
+			} /*/else {
+				if(aList[0] && aList[0].level != undefined){
+					aList = aList.sort((a,b) => {return (a.level==undefined?-1:a.level)-(b.level==undefined?-1:b.level)});
+					let aGroupNames = [];
+					aList.forEach(el=>{
+						if(!aGroupNames.includes(el.level)){
+							aGroupNames.push(el.level);
+						}
+					});
+					
+					for(let i=aGroupNames.length-1; i>=0; i--){
+						let sGroup = aGroupNames.pop();
+						let nIndex = aList.findIndex(el=>el.level==sGroup);
+						if(nIndex!=undefined){
+							aList.splice(nIndex,0,{
+								type:"group_title",
+								title: `Уровень ${sGroup}`
+							});
+						}
+					} 
+					
+				} else if(String(aList[0] && aList[0].type).length>0) {
+					aList = aList.sort((a,b) => {return (a.type==undefined?-1:a.type)-(b.type==undefined?-1:b.type)});
+					let aGroupNames = [];
+					aList.forEach(el=>{
+						if(!aGroupNames.includes(el.type)){
+							aGroupNames.push(el.type);
+						}
+					});
+					
+					for(let i=aGroupNames.length-1; i>=0; i--){
+						let sGroup = aGroupNames.pop();
+						let nIndex = aList.findIndex(el=>el.type==sGroup);
+						if(nIndex!=undefined){
+							let sGroupTitle = "Начальные ходы";
+							if(sGroup==1) {
+								sGroupTitle = "Ходы уровней <span class='nowrap'>2-5</span>";
+							}
+							if(sGroup==2) {
+								sGroupTitle = "Ходы уровней <span class='nowrap'>6-10</span>";
+							}
+							aList.splice(nIndex,0,{
+								type:"group_title",
+								title: sGroupTitle
+							});
+						}
+					}
 				}
-			}
+			}/**/
 			
 			return aList;
 		},
 		sectionClick: function({src, name}){
 			this.checked.section = `${name}`;
 			this.checked.subsection = "";
-			this.subsection = this._formatMenuListbyGroups(lib_DW.getStructure(this.checked.main, this.checked.section));
+			// this.subsection = this._formatMenuListbyGroups(
+				// lib_DW.getStructure(this.checked.main, this.checked.section),
+				// lib_DW.getMetadata(this.checked.main, this.checked.section)
+				// );
 			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
@@ -898,7 +941,7 @@ var app = new Vue({
 		subsectionClick: function({src, name}){
 			this.checked.subsection = `${name}`;
 			//this.list_data = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
-			this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
+			//this.libPathValue = lib_DW.getByPath(this.checked.main, this.checked.section, this.checked.subsection);
 			this.updateHash();
 			
 			this.move_fails = [];
@@ -1083,7 +1126,11 @@ var app = new Vue({
 			let aHash = sHash.split("|");
 			if(aHash[0]) {
 				this.checked.main = aHash[0];
-				this.section = lib_DW.getStructure(this.checked.main);
+				//this.section = lib_DW.getStructure(this.checked.main);
+				this.section = this._formatMenuListbyGroups(
+					lib_DW.getStructure(this.checked.main),
+					lib_DW.getMetadata(this.checked.main)
+				);
 				this._switchSectionAction(this.checked.main);
 				this.section_actions.forEach(oAction => {oAction.list.forEach(oListItem => {oListItem.value = ""})});
 				this.libPathValue = {};
@@ -1093,7 +1140,10 @@ var app = new Vue({
 			
 			if(aHash[1]) {
 				this.checked.section = aHash[1];
-				this.subsection = this._formatMenuListbyGroups(lib_DW.getStructure(this.checked.main, this.checked.section));
+				this.subsection = this._formatMenuListbyGroups(
+					lib_DW.getStructure(this.checked.main, this.checked.section),
+					lib_DW.getMetadata(this.checked.main, this.checked.section)
+				);
 			} else {
 				// this.checked.section = "";
 				// this.section = [];

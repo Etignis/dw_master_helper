@@ -92,6 +92,7 @@
 					:name="item.key"
 					src='section'
 					:title="item.title"
+					:type="String(item.type)"
 					:ico="item.ico"
 					:color="item.color"
 					:checked="checked.section"
@@ -224,6 +225,11 @@
 
 						</lister>
 					</ul>
+				</section>
+				
+				<section>
+					<div v-html="sources_info">
+					</div>
 				</section>
 			</div>
 			
