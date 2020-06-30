@@ -17,7 +17,9 @@ function shuffle(o, bRand){
 };
 
 function _formatText(sText){
-	return sText.split("|").map(el=>`<p>${el}</p>`).join("\r\n");
+	return sText.split("|").map(el=>`<p>${el}</p>`).join("\r\n")
+				.replace(/\[([^\[\]]+)\]/g, "<b>$1</b>")
+				.replace(/\{([^\[\]]+)\}/g, "<i>$1</i>");
 }
 
 function parseDie(sDie){
@@ -213,7 +215,9 @@ Vue.component('move', {
 			return [];
 		},
 		_condition: function(){
-			let sText = _formatText(this.condition).replace(/\[([^\[\]]+)\]/g, "<b>$1</b>");
+			let sText = _formatText(this.condition)
+				.replace(/\[([^\[\]]+)\]/g, "<b>$1</b>")
+				.replace(/\{([^\[\]]+)\}/g, "<i>$1</i>");
 			if(sText.includes("●")) {
 				let aLines = sText.split(/●/);
 				let sStart = aLines.shift();
@@ -234,6 +238,17 @@ Vue.component('move', {
 				return "";
 			}
 			return  _formatText(this.variants.title);
+		},
+		_variants_list: function(){
+			if(this.variants.list && this.variants.list.length>0) {
+				let aList = [];
+				for (let i=0; i<this.variants.list.length; i++) {
+					aList.push(this.variants.list[i]);
+					aList[i].title = _formatText(aList[i].title)
+				}
+				return aList;
+			}
+			return [];
 		}
 	},
 	created: function(){
@@ -263,8 +278,9 @@ Vue.component('move', {
 		<div v-if="isVariants">
 			<div v-html="_varinats_title"></div>
 			<ul>
-				<li v-for="item in variants.list">
-				{{item.title}}
+				<li v-for="item in _variants_list">
+					<span v-html="item.title">
+					</span>
 				</li>
 			</ul>
 		</div>
@@ -696,7 +712,7 @@ var app = new Vue({
 		},
 		
 		listCompact: function(){
-			if(this.displayData && this.displayData.list && this.displayData.list.length>0) {
+			if(this.displayData && this.displayData.list && this.displayData.list.length>20) {
 				let nAvr = this.displayData.list.reduce((a, b, i, arr) => a + b.title.length / arr.length, 0);
 				if(nAvr<24){
 					return true;
