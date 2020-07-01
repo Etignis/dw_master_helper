@@ -17,9 +17,9 @@ function shuffle(o, bRand){
 };
 
 function _formatText(sText){
-	return sText.split("|").map(el=>`<p>${el}</p>`).join("\r\n")
+	return sText?sText.split("|").map(el=>`<p>${el}</p>`).join("\r\n")
 				.replace(/\[([^\[\]]+)\]/g, "<b>$1</b>")
-				.replace(/\{([^\[\]]+)\}/g, "<i>$1</i>");
+				.replace(/\{([^\[\]]+)\}/g, "<i>$1</i>"):"";
 }
 
 function parseDie(sDie){
@@ -186,7 +186,7 @@ Vue.component('move', {
 			default: function(){return []}
 		},
 		variants: {
-			type: Object,
+			type: [Object, Array],
 			default: function(){return {}}
 		},
 		
@@ -233,6 +233,21 @@ Vue.component('move', {
 			return (this.replace)? "Заменяет: ":"";
 		},
 		
+		_variants_list: function(){
+			let aVariants = [];
+			if(this.variants) {
+				if(Array.isArray(this.variants)) {
+					aVariants = this.variants;
+				} else if (typeof this.variants === "object"){
+					aVariants.push(this.variants);
+				}
+			}
+			return aVariants.map(el=>({
+				title: _formatText(el.title),
+				list: el.list?el.list.map(item=>({title: _formatText(item.title)})): []
+			}));
+		},
+		/*
 		_varinats_title: function(){
 			if(!this.variants || !this.variants.title) {
 				return "";
@@ -249,7 +264,7 @@ Vue.component('move', {
 				return aList;
 			}
 			return [];
-		}
+		}*/
 	},
 	created: function(){
 		
@@ -276,13 +291,16 @@ Vue.component('move', {
 			</li>
 		</ul>
 		<div v-if="isVariants">
-			<div v-html="_varinats_title"></div>
-			<ul>
-				<li v-for="item in _variants_list">
-					<span v-html="item.title">
-					</span>
-				</li>
-			</ul>
+			<div v-for="variant in _variants_list">
+				<div v-html="variant.title"></div>
+				<ul>
+					<li v-for="item in variant.list">
+						<span v-html="item.title">
+						</span>
+					</li>
+				</ul>
+			</div>
+			
 		</div>
 		
 </article>`
