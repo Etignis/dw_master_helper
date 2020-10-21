@@ -198,8 +198,8 @@
 					</div>
 					
 					
-					<p v-html="displayData.pre">
-					</p>		
+					<!-- <p v-html="displayData.pre"> -->
+					<!-- </p>		 -->
 					
 					<ul class='move_options'>
 						<chooser v-for="item in options"
@@ -215,7 +215,12 @@
 					
 				</section>
 				<section class='padding'>
-					<h1>Все варианты:</h1>
+					<p v-html="displayData.pre">
+					</p>
+				</section>
+				<section class='padding'>
+					<h1 v-if="String(random_result).length > 0">Все варианты:</h1>
+					<h1 v-else> Список:</h1>
 					<ul :class="{compact: listCompact}">
 						<lister v-for="item in displayData.list"
 							:key="item.i"
