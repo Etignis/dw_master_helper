@@ -540,6 +540,12 @@ var app = new Vue({
 					title: "Сокровище",
 					value: "",
 					params: `frankenstein/treasure`
+				},
+				{
+					key: "",
+					title: "Уязвимость",
+					value: "",
+					params: `frankenstein/vulnerability`
 				}
 			]
 		},{
@@ -1004,6 +1010,9 @@ var app = new Vue({
 			let aTreasure = this.random_list = lib_DW.getResult(
 				`frankenstein/treasure`, {}
 				);
+			let aVvulnerability = this.random_list = lib_DW.getResult(
+				`frankenstein/vulnerability`, {}
+				);
 				
 				
 				this.section_actions.find(el=> el.key == "random_monster").list = [
@@ -1030,6 +1039,12 @@ var app = new Vue({
 						title: "Сокровище",
 						value: aTreasure[0],
 						params: `frankenstein/treasure`
+					},
+					{
+						key: "",
+						title: "Уязвимость",
+						value: aVvulnerability[0],
+						params: `frankenstein/vulnerability`
 					}
 				];
 				
