@@ -543,7 +543,7 @@ var app = new Vue({
 				},
 				{
 					key: "",
-					title: "Уязвимость",
+					title: "Слабость",
 					value: "",
 					params: `frankenstein/vulnerability`
 				}
@@ -1042,7 +1042,7 @@ var app = new Vue({
 					},
 					{
 						key: "",
-						title: "Уязвимость",
+						title: "Слабость",
 						value: aVvulnerability[0],
 						params: `frankenstein/vulnerability`
 					}
