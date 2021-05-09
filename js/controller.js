@@ -574,6 +574,12 @@ var app = new Vue({
 					title: "Тактика",
 					value: "",
 					params:`character_randoms/way`
+				},
+				{
+					key: "",
+					title: "Стремление",
+					value: "",
+					params:`character_randoms/drives`
 				}
 			]
 		}
@@ -708,6 +714,7 @@ var app = new Vue({
 				
 			}).join("<hr>");
 		},
+
 		
 		displayMove: function(){
 			let oData = [];
