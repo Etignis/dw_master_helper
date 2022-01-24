@@ -9934,7 +9934,7 @@
 		
 		_Lib.getRandomMonster = _getRandomMonster;
 		
-		_Lib.version = '27.05.2020';
+		_Lib.version = '24.01.2022';
 
     return _Lib;
   }
